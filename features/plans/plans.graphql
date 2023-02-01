@@ -1,0 +1,93 @@
+type Company {
+  id: ID!
+  name: String!
+  website: String!
+  insurancePlans: [InsurancePlan]!
+}
+
+type ServiceCovered {
+  id: ID!
+  name: String!
+  percentageCovered: Int!
+  maxAmount: Int!
+  timePeriod: Int!
+  providers: [Provider]!
+}
+
+type InsurancePlan {
+  id: ID!
+  name: String!
+  company: Company!
+  servicesCovered: [ServiceCovered]!
+}
+
+type Provider {
+  id: ID!
+  name: String!
+  phoneNumber: String!
+  email: String!
+  reimbursementHandling: String!
+  serviceCovered: ServiceCovered!
+}
+
+type Query {
+  allCompanies: [Company]!
+  allServicesCovered: [ServiceCovered]!
+  allInsurancePlans: [InsurancePlan]!
+  allProviders: [Provider]!
+  company(id: ID!): Company
+  serviceCovered(id: ID!): ServiceCovered
+  insurancePlan(id: ID!): InsurancePlan
+  provider(id: ID!): Provider
+}
+
+type Mutation {
+  createCompany(name: String!, website: String!): Company!
+  updateCompany(id: ID!, name: String, website: String): Company
+  deleteCompany(id: ID!): Company
+  ####################################################################
+  createServiceCovered(
+    name: String!
+    percentageCovered: Int!
+    maxAmount: Int!
+    timePeriod: Int!
+  ): ServiceCovered!
+  updateServiceCovered(
+    id: ID!
+    name: String
+    percentageCovered: Int
+    maxAmount: Int
+    timePeriod: Int
+  ): ServiceCovered
+  deleteServiceCovered(id: ID!): ServiceCovered
+  ####################################################################
+  createInsurancePlan(
+    name: String!
+    companyId: ID!
+    servicesCoveredIds: [ID]!
+  ): InsurancePlan!
+  updateInsurancePlan(
+    id: ID!
+    name: String
+    companyId: ID
+    servicesCoveredIds: [ID]
+  ): InsurancePlan
+  deleteInsurancePlan(id: ID!): InsurancePlan
+  ####################################################################
+  createProvider(
+    name: String!
+    phoneNumber: String!
+    email: String!
+    reimbursementHandling: String!
+    serviceCoveredId: ID!
+  ): Provider!
+  updateProvider(
+    id: ID!
+    name: String
+    phoneNumber: String
+    email: String
+    reimbursementHandling: String
+    serviceCoveredId: ID
+  ): Provider
+  deleteProvider(id: ID!): Provider
+}

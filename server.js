@@ -1,15 +1,15 @@
 // @collapse
 var path = require("path");
 const express = require("express");
-
-const { ApolloServer } = require("apollo-server-express");
+const xssFilter = require("x-xss-protection");
 const helmet = require("helmet");
 
+const { ApolloServer } = require("apollo-server-express");
 const { loadFilesSync } = require("@graphql-tools/load-files");
 const { makeExecutableSchema } = require("@graphql-tools/schema");
-
 const typesArray = loadFilesSync(path.join(__dirname, "**/*.graphql"));
 const resolversArray = loadFilesSync(path.join(__dirname, "**/*.resolvers.js"));
+
 const { mongoConnect } = require("./services/mongo");
 const PORT = 3000;
 
@@ -23,14 +23,16 @@ async function startApolloServer() {
 
   app.enable("trust proxy");
 
+  // Middleware to add security-related HTTP headers
   app.use(helmet());
+
+  // Middleware to prevent cross-site scripting (XSS) attacks
+  app.use(xssFilter());
 
   await mongoConnect();
 
   //******************************************************************************** */
   const schema = makeExecutableSchema({
-    // typeDefs: [...typesArray, {scalar Date}],
-    // resolvers: [...resolversArray, { Date: dateScalar }],
     typeDefs: typesArray,
     resolvers: resolversArray,
   });
