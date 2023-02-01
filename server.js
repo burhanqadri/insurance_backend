@@ -1,7 +1,7 @@
 // @collapse
 var path = require("path");
+const cors = require("cors");
 const express = require("express");
-const xssFilter = require("x-xss-protection");
 const helmet = require("helmet");
 
 const { ApolloServer } = require("apollo-server-express");

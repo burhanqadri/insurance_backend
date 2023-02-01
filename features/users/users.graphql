@@ -1,0 +1,29 @@
+type User {
+  name: String!
+  email: String!
+  location: String!
+  company: String!
+  answers: [String!]!
+}
+
+type Query {
+  user(id: ID!): User
+}
+
+type Mutation {
+  createUser(
+    name: String!
+    email: String!
+    location: String!
+    company: String!
+    answers: [String!]!
+  ): User
+  updateUser(
+    id: ID!
+    name: String!
+    email: String!
+    location: String!
+    company: String!
+    answers: [String!]!
+  ): User
+}
