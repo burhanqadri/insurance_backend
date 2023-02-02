@@ -1,4 +1,3 @@
-// @collapse
 var path = require("path");
 const cors = require("cors");
 const express = require("express");
@@ -43,6 +42,10 @@ async function startApolloServer() {
 
   await server.start();
   server.applyMiddleware({ app, path: "/graphql" });
+
+  app.listen(PORT, () => {
+    console.log("Running GraphQL server...");
+  });
 }
 
 startApolloServer();

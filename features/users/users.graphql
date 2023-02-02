@@ -1,29 +1,28 @@
 type User {
+  uid: ID!
   name: String!
   email: String!
   location: String!
   company: String!
-  answers: [String!]!
 }
 
 type Query {
-  user(id: ID!): User
+  getUserBy(uid: ID!): User
 }
 
 type Mutation {
   createUser(
+    uid: String!
     name: String!
     email: String!
     location: String!
     company: String!
-    answers: [String!]!
   ): User
   updateUser(
-    id: ID!
-    name: String!
-    email: String!
-    location: String!
-    company: String!
-    answers: [String!]!
+    uid: String!
+    name: String
+    email: String
+    location: String
+    company: String
   ): User
 }

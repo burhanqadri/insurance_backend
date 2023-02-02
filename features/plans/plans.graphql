@@ -16,7 +16,9 @@ type ServiceCovered {
 
 type InsurancePlan {
   id: ID!
+  type: String! #all, health, dental, drugs
   name: String!
+  insuranceProvider: String!
   company: Company!
   servicesCovered: [ServiceCovered]!
 }
@@ -27,14 +29,11 @@ type Provider {
   phoneNumber: String!
   email: String!
   reimbursementHandling: Boolean!
-  serviceCovered: ServiceCovered!
+  serviceCovered: [ServiceCovered]!
 }
 
 type Query {
   allCompanies: [Company]!
-  allServicesCovered: [ServiceCovered]!
-  allInsurancePlans: [InsurancePlan]!
-  allProviders: [Provider]!
   company(id: ID!): Company
   serviceCovered(id: ID!): ServiceCovered
   insurancePlan(id: ID!): InsurancePlan

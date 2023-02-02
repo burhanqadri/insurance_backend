@@ -2,9 +2,10 @@ const User = require("./users.mongo");
 
 const resolvers = {
   Query: {
-    user: async (_, { id }) => {
+    getUserBy: async (_, { uid }) => {
       try {
-        const user = await User.findById(id);
+        console.log(uid);
+        const user = await User.findOne({ uid: uid });
         return user;
       } catch (error) {
         throw new Error(error);
@@ -15,11 +16,11 @@ const resolvers = {
     createUser: async (_, args) => {
       try {
         const user = new User({
+          uid: args.uid,
           name: args.name,
           email: args.email,
           location: args.location,
           company: args.company,
-          answers: args.answers,
         });
         const result = await user.save();
         return result;
@@ -29,14 +30,13 @@ const resolvers = {
     },
     updateUser: async (_, args) => {
       try {
-        const user = await User.findByIdAndUpdate(
-          args.id,
+        const user = await User.findOneAndUpdate(
+          { uid: args.uid },
           {
             name: args.name,
             email: args.email,
             location: args.location,
             company: args.company,
-            answers: args.answers,
           },
           { new: true }
         );
