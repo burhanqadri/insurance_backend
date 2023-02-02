@@ -27,7 +27,7 @@ async function startApolloServer() {
   app.use(helmet());
 
   // Middleware to prevent cross-site scripting (XSS) attacks
-  app.use(xssFilter());
+  //   app.use(xssFilter());
 
   await mongoConnect();
 

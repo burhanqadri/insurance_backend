@@ -26,7 +26,7 @@ type Provider {
   name: String!
   phoneNumber: String!
   email: String!
-  reimbursementHandling: String!
+  reimbursementHandling: Boolean!
   serviceCovered: ServiceCovered!
 }
 
@@ -78,7 +78,7 @@ type Mutation {
     name: String!
     phoneNumber: String!
     email: String!
-    reimbursementHandling: String!
+    reimbursementHandling: Boolean!
     serviceCoveredId: ID!
   ): Provider!
   updateProvider(
@@ -86,7 +86,7 @@ type Mutation {
     name: String
     phoneNumber: String
     email: String
-    reimbursementHandling: String
+    reimbursementHandling: Boolean
     serviceCoveredId: ID
   ): Provider
   deleteProvider(id: ID!): Provider
