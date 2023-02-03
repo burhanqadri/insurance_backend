@@ -1,92 +1,77 @@
+type InsuranceComapny {
+  insuranceCompanyID: ID!
+  name: String!
+  howToTrack: String
+  howToReimburse: String
+}
+
 type Company {
-  id: ID!
+  companyID: ID!
   name: String!
   website: String!
+  location: String!
   insurancePlans: [InsurancePlan]!
 }
 
+type InsurancePlan {
+  insurancePlanID: ID!
+  type: String! #all, health, dental, drugs
+  name: String!
+  insuranceCompany: InsuranceComapny!
+  company: Company!
+  servicesCovered: [ServiceGroup]!
+}
+
+type ServiceGroup {
+  serviceGroupID: ID!
+  name: String!
+  percentageCovered: Int!
+  maxCombined: Int!
+  timePeriod: Int!
+  insurancePlan: InsurancePlan!
+  services: [ServiceCovered]!
+}
+
 type ServiceCovered {
-  id: ID!
+  serviceCoveredID: ID!
   name: String!
   percentageCovered: Int!
   maxAmount: Int!
   timePeriod: Int!
   providers: [Provider]!
-}
-
-type InsurancePlan {
-  id: ID!
-  type: String! #all, health, dental, drugs
-  name: String!
-  insuranceProvider: String!
-  company: Company!
-  servicesCovered: [ServiceCovered]!
+  serviceGroup: ServiceGroup!
 }
 
 type Provider {
-  id: ID!
+  providerID: ID!
   name: String!
   phoneNumber: String!
-  email: String!
+  email: String
+  website: String
+  description: String
+  address: String
+  latitude: String
+  longitude: String
+  reviews: [Review]
+  virtualAvailable: Boolean!
   reimbursementHandling: Boolean!
   serviceCovered: [ServiceCovered]!
 }
 
-type Query {
-  allCompanies: [Company]!
-  company(id: ID!): Company
-  serviceCovered(id: ID!): ServiceCovered
-  insurancePlan(id: ID!): InsurancePlan
-  provider(id: ID!): Provider
+type Review {
+  user: User!
+  rating: Float!
+  comment: String
+  date: String
 }
 
-type Mutation {
-  createCompany(name: String!, website: String!): Company!
-  updateCompany(id: ID!, name: String, website: String): Company
-  deleteCompany(id: ID!): Company
-  ####################################################################
-  createServiceCovered(
-    name: String!
-    percentageCovered: Int!
-    maxAmount: Int!
-    timePeriod: Int!
-  ): ServiceCovered!
-  updateServiceCovered(
-    id: ID!
-    name: String
-    percentageCovered: Int
-    maxAmount: Int
-    timePeriod: Int
-  ): ServiceCovered
-  deleteServiceCovered(id: ID!): ServiceCovered
-  ####################################################################
-  createInsurancePlan(
-    name: String!
-    companyId: ID!
-    servicesCoveredIds: [ID]!
-  ): InsurancePlan!
-  updateInsurancePlan(
-    id: ID!
-    name: String
-    companyId: ID
-    servicesCoveredIds: [ID]
-  ): InsurancePlan
-  deleteInsurancePlan(id: ID!): InsurancePlan
-  ####################################################################
-  createProvider(
-    name: String!
-    phoneNumber: String!
-    email: String!
-    reimbursementHandling: Boolean!
-    serviceCoveredId: ID!
-  ): Provider!
-  updateProvider(
-    id: ID!
-    name: String
-    phoneNumber: String
-    email: String
-    reimbursementHandling: Boolean
-    serviceCoveredId: ID
-  ): Provider
-  deleteProvider(id: ID!): Provider
+type Claim {
+  claimID: ID!
+  user: User!
+  amount: Float!
+  date: String!
+  reimbursementFiled: Boolean
+  reimbursementReceived: Boolean
+  provider: Provider
+  service: ServiceCovered!
 }
