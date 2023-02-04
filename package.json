@@ -4,6 +4,7 @@
   "description": "Backend to field calls for insurance app",
   "main": "server.js",
   "scripts": {
+    "start": "node server.js",
     "watch": "nodemon start server.js",
     "test": "testcommand"
   },
