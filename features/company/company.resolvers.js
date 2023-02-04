@@ -7,7 +7,7 @@ const resolvers = {
       return await Company.find({});
     },
     async company(_, { companyID }) {
-      return await Company.findById(companyID);
+      return await Company.findOne({ companyID });
     },
   },
   Mutation: {
@@ -24,14 +24,14 @@ const resolvers = {
       _,
       { companyID, name, logo, location, insurancePlans }
     ) {
-      return await Company.findByIdAndUpdate(
-        companyID,
+      return await Company.findOneAndUpdate(
+        { companyID },
         { name, logo, location, insurancePlans },
         { new: true }
       );
     },
     async deleteCompany(_, { companyID }) {
-      return await Company.findByIdAndDelete(companyID);
+      return await Company.findOneAndDelete({ companyID });
     },
   },
   //   Company: {

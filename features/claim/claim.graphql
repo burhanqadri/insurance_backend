@@ -1,13 +1,12 @@
 type Claim {
   claimID: ID!
   user: User!
-  # userUid: ID!
-  #provider: Provider
   amount: Float!
   date: String!
   reimbursementFiled: Boolean
   reimbursementReceived: Boolean
   service: ServiceCovered!
+  #provider: Provider
 }
 
 type Query {

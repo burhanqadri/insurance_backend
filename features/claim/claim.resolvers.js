@@ -6,7 +6,7 @@ module.exports = {
   Query: {
     getClaim: async (_, { claimID }) => {
       try {
-        const claim = await Claim.findById(claimID);
+        const claim = await Claim.findOne({ claimID });
         return claim;
       } catch (error) {
         console.log(error);
@@ -26,11 +26,13 @@ module.exports = {
   Mutation: {
     createClaim: async (_, { input }) => {
       try {
-        const user = await User.findById(input.userID);
+        const user = await User.findOne({ uid: input.userID });
         if (!user) {
           throw new Error("User not found");
         }
-        const service = await ServiceCovered.findById(input.serviceID);
+        const service = await ServiceCovered.findOne({
+          serviceID: input.serviceID,
+        });
         if (!service) {
           throw new Error("Service Covered not found");
         }
@@ -53,17 +55,19 @@ module.exports = {
     },
     updateClaim: async (_, { claimID, input }) => {
       try {
-        const claim = await Claim.findById(claimID);
+        const claim = await Claim.findOne({ claimID });
         if (!claim) {
           throw new Error("Claim not found");
         }
 
-        const user = await User.findById(input.userID);
+        const user = await User.findOne({ uid: input.userID });
         if (!user) {
           throw new Error("User not found");
         }
 
-        const service = await ServiceCovered.findById(input.serviceID);
+        const service = await ServiceCovered.findOne({
+          serviceID: input.serviceID,
+        });
         if (!service) {
           throw new Error("Service Covered not found");
         }
@@ -84,16 +88,12 @@ module.exports = {
     },
     addClaimToUser: async (_, { uid, claimID }) => {
       try {
-        const user = await User.findById(uid);
+        const user = await User.findOne({ uid });
         if (!user) {
           throw new Error("User not found");
         }
-        const claim = await Claim.findById(claimID);
-        if (!claim) {
-          throw new Error("Claim not found");
-        }
 
-        user.claims.push(claim);
+        user.claims.push(claimID);
 
         await user.save();
         return user;
@@ -104,16 +104,12 @@ module.exports = {
     },
     removeClaimFromUser: async (_, { uid, claimID }) => {
       try {
-        const user = await User.findById(uid);
+        const user = await User.findOne({ uid });
         if (!user) {
           throw new Error("User not found");
         }
-        const claim = await Claim.findById(claimID);
-        if (!claim) {
-          throw new Error("Claim not found");
-        }
 
-        user.claims = user.claims.filter((c) => c._id.toString() !== claimID);
+        user.claims = user.claims.filter((c) => c !== claimID);
 
         await user.save();
         return user;

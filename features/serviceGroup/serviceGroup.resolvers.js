@@ -14,7 +14,7 @@ const serviceGroupResolvers = {
     },
     async serviceGroup(_, { serviceGroupID }) {
       try {
-        const serviceGroup = await ServiceGroup.findById(serviceGroupID);
+        const serviceGroup = await ServiceGroup.findOne({ serviceGroupID });
         return serviceGroup;
       } catch (err) {
         throw err;
@@ -34,14 +34,16 @@ const serviceGroupResolvers = {
       }
     ) {
       try {
-        const insurancePlan = await InsurancePlan.findById(insurancePlanID);
+        const insurancePlan = await InsurancePlan.findOne({ insurancePlanID });
         if (!insurancePlan) {
           throw new Error("Insurance plan not found");
         }
 
         const services = [];
         for (const serviceID of serviceIDs) {
-          const service = await ServiceCovered.findById(serviceID);
+          const service = await ServiceCovered.findOne({
+            serviceCoveredID: serviceID,
+          });
           if (!service) {
             throw new Error(`Service with ID ${serviceID} not found`);
           }
@@ -76,22 +78,24 @@ const serviceGroupResolvers = {
       }
     ) {
       try {
-        const insurancePlan = await InsurancePlan.findById(insurancePlanID);
+        const insurancePlan = await InsurancePlan.findOne({ insurancePlanID });
         if (!insurancePlan) {
           throw new Error("Insurance plan not found");
         }
 
         const services = [];
         for (const serviceID of serviceIDs) {
-          const service = await ServiceCovered.findById(serviceID);
+          const service = await ServiceCovered.findOne({
+            serviceCoveredID: serviceID,
+          });
           if (!service) {
             throw new Error(`Service with ID ${serviceID} not found`);
           }
           services.push(service);
         }
 
-        const serviceGroup = await ServiceGroup.findByIdAndUpdate(
-          serviceGroupID,
+        const serviceGroup = await ServiceGroup.findOneAndUpdate(
+          { serviceGroupID },
           {
             name,
             percentageCovered,
@@ -114,9 +118,9 @@ const serviceGroupResolvers = {
     },
     async deleteServiceGroup(_, { serviceGroupID }) {
       try {
-        const serviceGroup = await ServiceGroup.findByIdAndRemove(
-          serviceGroupID
-        );
+        const serviceGroup = await ServiceGroup.findOneAndDelete({
+          serviceGroupID,
+        });
         if (!serviceGroup) {
           throw new Error("Service group not found");
         }

@@ -7,7 +7,7 @@ module.exports = {
   Query: {
     getUser: async (_, { uid }) => {
       try {
-        const user = await User.findById(uid);
+        const user = await User.findOne({ uid });
         return user;
       } catch (error) {
         console.log(error);
@@ -28,10 +28,10 @@ module.exports = {
     createUser: async (_, { input }) => {
       try {
         const insurancePlans = input.insurancePlanIDs.map(async (ipID) => {
-          return await InsurancePlan.findById(ipID);
+          return await InsurancePlan.findOne({ insurancePlanID: ipID });
         });
         const companies = input.companyIDs.map(async (cID) => {
-          return await Company.findById(cID);
+          return await Company.findOne({ companyID: cID });
         });
 
         const user = new User({
@@ -56,17 +56,17 @@ module.exports = {
     },
     updateUser: async (_, { uid, input }) => {
       try {
-        const user = await User.findById(uid);
+        const user = await User.findOne({ uid });
         if (!user) {
           throw new Error("User not found");
         }
 
         const insurancePlans = input.insurancePlanIDs.map(async (ipID) => {
-          return await InsurancePlan.findById(ipID);
+          return await InsurancePlan.findOne({ insurancePlanID: ipID });
         });
 
         const companies = input.companyIDs.map(async (cID) => {
-          return await Company.findById(cID);
+          return await Company.findOne({ companyID: cID });
         });
 
         user.phone = input.phone;

@@ -5,7 +5,9 @@ module.exports = {
   Query: {
     async getServiceCovered(_, { serviceCoveredID }) {
       try {
-        const serviceCovered = await ServiceCovered.findById(serviceCoveredID);
+        const serviceCovered = await ServiceCovered.findOne({
+          serviceCoveredID,
+        });
         return serviceCovered;
       } catch (error) {
         console.log(error);
@@ -26,7 +28,7 @@ module.exports = {
     async createServiceCovered(_, { input }) {
       try {
         const { serviceGroupID, ...rest } = input;
-        const serviceGroup = await ServiceGroup.findById(serviceGroupID);
+        const serviceGroup = await ServiceGroup.findOne({ serviceGroupID });
 
         if (!serviceGroup) {
           throw new Error(`ServiceGroup with id ${serviceGroupID} not found`);
@@ -47,14 +49,14 @@ module.exports = {
     async updateServiceCovered(_, { serviceCoveredID, input }) {
       try {
         const { serviceGroupID, ...rest } = input;
-        const serviceGroup = await ServiceGroup.findById(serviceGroupID);
+        const serviceGroup = await ServiceGroup.findOne({ serviceGroupID });
 
         if (!serviceGroup) {
           throw new Error(`ServiceGroup with id ${serviceGroupID} not found`);
         }
 
-        const updatedServiceCovered = await ServiceCovered.findByIdAndUpdate(
-          serviceCoveredID,
+        const updatedServiceCovered = await ServiceCovered.findOneAndUpdate(
+          { serviceCoveredID },
           {
             ...rest,
             serviceGroup: serviceGroup._id,
@@ -70,9 +72,9 @@ module.exports = {
     },
     async deleteServiceCovered(_, { serviceCoveredID }) {
       try {
-        const deletedServiceCovered = await ServiceCovered.findByIdAndDelete(
-          serviceCoveredID
-        );
+        const deletedServiceCovered = await ServiceCovered.findOneAndDelete({
+          serviceCoveredID,
+        });
         return deletedServiceCovered;
       } catch (error) {
         console.log(error);

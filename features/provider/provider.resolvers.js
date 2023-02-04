@@ -8,7 +8,7 @@ const resolvers = {
       return providers;
     },
     provider: async (parent, args, context, info) => {
-      const provider = await Provider.findById(args.providerID);
+      const provider = await Provider.findOne({ providerID: args.providerID });
       return provider;
     },
   },
@@ -42,8 +42,8 @@ const resolvers = {
         name: { $in: args.insuranceCompaniesCompatible },
       });
 
-      const updatedProvider = await Provider.findByIdAndUpdate(
-        args.providerID,
+      const updatedProvider = await Provider.findOneAndUpdate(
+        { providerID: args.providerID },
         {
           name: args.name,
           phone: args.phone,
@@ -65,19 +65,21 @@ const resolvers = {
       return updatedProvider;
     },
     deleteProvider: async (parent, args, context, info) => {
-      const deletedProvider = await Provider.findByIdAndDelete(args.providerID);
+      const deletedProvider = await Provider.findOneAndDelete({
+        providerID: args.providerID,
+      });
       return deletedProvider;
     },
   },
-  Provider: {
-    insuranceCompaniesCompatible: async (parent, args, context, info) => {
-      const insuranceCompanies = await InsuranceCompany.find({
-        _id: { $in: parent.insuranceCompaniesCompatible },
-      });
+  // Provider: {
+  //   insuranceCompaniesCompatible: async (parent, args, context, info) => {
+  //     const insuranceCompanies = await InsuranceCompany.find({
+  //       _id: { $in: parent.insuranceCompaniesCompatible },
+  //     });
 
-      return insuranceCompanies;
-    },
-  },
+  //     return insuranceCompanies;
+  //   },
+  // },
 };
 
 module.exports = resolvers;
