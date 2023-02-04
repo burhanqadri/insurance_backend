@@ -1,4 +1,4 @@
-const InsurancePlan = require("./mongo.InsurancePlan");
+const InsurancePlan = require("./mongo.insurancePlan");
 const InsuranceCompany = require("../insuranceCompany/mongo.insuranceCompany");
 const ServiceGroup = require("../serviceGroup/mongo.serviceGroup");
 const Company = require("../company/mongo.company");

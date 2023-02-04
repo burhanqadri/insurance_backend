@@ -85,68 +85,28 @@ module.exports = {
         throw error;
       }
     },
-    addClaimToUser: async (_, { uid, claimID }) => {
-      try {
-        const user = await User.findById(uid);
-        if (!user) {
-          throw new Error("User not found");
-        }
-        const claim = await Claim.findById(claimID);
-        if (!claim) {
-          throw new Error("Claim not found");
-        }
-
-        user.claims.push(claim);
-
-        await user.save();
-        return user;
-      } catch (error) {
-        console.log(error);
-        throw error;
-      }
-    },
-    removeClaimFromUser: async (_, { uid, claimID }) => {
-      try {
-        const user = await User.findById(uid);
-        if (!user) {
-          throw new Error("User not found");
-        }
-        const claim = await Claim.findById(claimID);
-        if (!claim) {
-          throw new Error("Claim not found");
-        }
-
-        user.claims = user.claims.filter((c) => c._id.toString() !== claimID);
-
-        await user.save();
-        return user;
-      } catch (error) {
-        console.log(error);
-        throw error;
-      }
-    },
   },
-  User: {
-    insurancePlan: async (parent, args, context, info) => {
-      return await Promise.all(
-        parent.insurancePlan.map(async (ip) => {
-          return await InsurancePlan.findById(ip._id);
-        })
-      );
-    },
-    company: async (parent, args, context, info) => {
-      return await Promise.all(
-        parent.company.map(async (c) => {
-          return await Company.findById(c._id);
-        })
-      );
-    },
-    claims: async (parent, args, context, info) => {
-      return await Promise.all(
-        parent.claims.map(async (c) => {
-          return await Claim.findById(c._id);
-        })
-      );
-    },
-  },
+  // User: {
+  //   insurancePlan: async (parent, args, context, info) => {
+  //     return await Promise.all(
+  //       parent.insurancePlan.map(async (ip) => {
+  //         return await InsurancePlan.findById(ip._id);
+  //       })
+  //     );
+  //   },
+  //   company: async (parent, args, context, info) => {
+  //     return await Promise.all(
+  //       parent.company.map(async (c) => {
+  //         return await Company.findById(c._id);
+  //       })
+  //     );
+  //   },
+  //   claims: async (parent, args, context, info) => {
+  //     return await Promise.all(
+  //       parent.claims.map(async (c) => {
+  //         return await Claim.findById(c._id);
+  //       })
+  //     );
+  //   },
+  // },
 };

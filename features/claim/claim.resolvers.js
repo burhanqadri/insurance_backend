@@ -82,5 +82,45 @@ module.exports = {
         throw error;
       }
     },
+    addClaimToUser: async (_, { uid, claimID }) => {
+      try {
+        const user = await User.findById(uid);
+        if (!user) {
+          throw new Error("User not found");
+        }
+        const claim = await Claim.findById(claimID);
+        if (!claim) {
+          throw new Error("Claim not found");
+        }
+
+        user.claims.push(claim);
+
+        await user.save();
+        return user;
+      } catch (error) {
+        console.log(error);
+        throw error;
+      }
+    },
+    removeClaimFromUser: async (_, { uid, claimID }) => {
+      try {
+        const user = await User.findById(uid);
+        if (!user) {
+          throw new Error("User not found");
+        }
+        const claim = await Claim.findById(claimID);
+        if (!claim) {
+          throw new Error("Claim not found");
+        }
+
+        user.claims = user.claims.filter((c) => c._id.toString() !== claimID);
+
+        await user.save();
+        return user;
+      } catch (error) {
+        console.log(error);
+        throw error;
+      }
+    },
   },
 };

@@ -33,6 +33,7 @@ type Mutation {
     serviceCoveredID: ID!
     input: ServiceCoveredInput!
   ): ServiceCovered
+  deleteServiceCovered(serviceCoveredID: ID!): ServiceCovered
 }
 
 # query {

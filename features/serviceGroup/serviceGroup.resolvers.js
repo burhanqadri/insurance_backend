@@ -4,7 +4,7 @@ const ServiceCovered = require("../serviceCovered/mongo.serviceCovered");
 
 const serviceGroupResolvers = {
   Query: {
-    async serviceGroups() {
+    async allServiceGroups() {
       try {
         const serviceGroups = await ServiceGroup.find();
         return serviceGroups;

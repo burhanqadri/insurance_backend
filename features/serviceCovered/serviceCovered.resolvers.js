@@ -1,5 +1,5 @@
-const ServiceCovered = require("models/serviceCovered");
-const ServiceGroup = require("models/serviceGroup");
+const ServiceCovered = require("./mongo.serviceCovered");
+const ServiceGroup = require("../serviceGroup/mongo.serviceGroup");
 
 module.exports = {
   Query: {
