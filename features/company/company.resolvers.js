@@ -1,5 +1,5 @@
-const Company = require("./models/Company");
-const InsurancePlan = require("./models/InsurancePlan");
+const Company = require("./mongo.company");
+const InsurancePlan = require("../insurancePlan/mongo.insurancePlan");
 
 const resolvers = {
   Query: {
@@ -34,13 +34,13 @@ const resolvers = {
       return await Company.findByIdAndDelete(companyID);
     },
   },
-  Company: {
-    async insurancePlans(company) {
-      return await InsurancePlan.find({
-        _id: { $in: company.insurancePlans },
-      });
-    },
-  },
+  //   Company: {
+  //     async insurancePlans(company) {
+  //       return await InsurancePlan.find({
+  //         _id: { $in: company.insurancePlans },
+  //       });
+  //     },
+  //   },
 };
 
 module.exports = resolvers;

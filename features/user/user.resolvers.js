@@ -1,7 +1,7 @@
-const User = require("./mongo.users");
+const User = require("./mongo.user");
 const InsurancePlan = require("../insurancePlan/mongo.insurancePlan");
 const Company = require("../company/mongo.company");
-const Claim = require("../claims/mongo.claim");
+const Claim = require("../claim/mongo.claim");
 
 module.exports = {
   Query: {

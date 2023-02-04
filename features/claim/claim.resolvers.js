@@ -1,5 +1,5 @@
-const Claim = require("./mongo.claims");
-const User = require("../users/mongo.users");
+const Claim = require("./mongo.claim");
+const User = require("../user/mongo.user");
 const ServiceCovered = require("../serviceCovered/mongo.serviceCovered");
 
 module.exports = {
