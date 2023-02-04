@@ -1,0 +1,165 @@
+type Claim {
+  claimID: ID!
+  user: User!
+  # userUid: ID!
+  #provider: Provider
+  amount: Float!
+  date: String!
+  reimbursementFiled: Boolean
+  reimbursementReceived: Boolean
+  service: ServiceCovered!
+}
+
+# Get all Claims
+query allClaims {
+  allClaims {
+    claimID
+    amount
+    date
+    reimbursementFiled
+    reimbursementReceived
+    service {
+      serviceCoveredID
+      name
+      percentageCovered
+      maxAmount
+      maxVisits
+      maxUnits
+      unitMinutesSize
+      timePeriod
+    }
+    user {
+      userID
+      name
+      email
+      phone
+      address
+      insurancePlans {
+        insurancePlanID
+        type
+        name
+        insuranceCompany {
+          insuranceCompanyID
+          name
+          howToTrack
+          howToReimburse
+        }
+        company {
+          companyID
+          name
+          logo
+          location
+        }
+        servicesCovered {
+          serviceGroupID
+          name
+          percentageCovered
+          maxCombined
+          timePeriod
+          services {
+            serviceCoveredID
+            name
+            percentageCovered
+            maxAmount
+            maxVisits
+            maxUnits
+            unitMinutesSize
+            timePeriod
+          }
+        }
+      }
+    }
+  }
+}
+
+# Get a specific Claim by ID
+query claimById($claimID: ID!) {
+  claimById(claimID: $claimID) {
+    claimID
+    amount
+    date
+    reimbursementFiled
+    reimbursementReceived
+    service {
+      serviceCoveredID
+      name
+      percentageCovered
+      maxAmount
+      maxVisits
+      maxUnits
+      unitMinutesSize
+      timePeriod
+    }
+    user {
+      userID
+      firstName
+      lastName
+      email
+      phoneNumber
+      address
+      insurancePlans {
+        insurancePlanID
+        type
+        name
+        insuranceCompany {
+          insuranceCompanyID
+          name
+          howToTrack
+          howToReimburse
+        }
+        company {
+          companyID
+          name
+          logo
+          location
+        }
+        servicesCovered {
+          serviceGroupID
+          name
+          percentageCovered
+          maxCombined
+          timePeriod
+          services {
+            serviceCoveredID
+            name
+            percentageCovered
+            maxAmount
+            maxVisits
+            maxUnits
+            unitMinutesSize
+            timePeriod
+          }
+        }
+      }
+    }
+  }
+}
+
+mutation createClaim($input: CreateClaimInput!) {
+  createClaim(input: $input) {
+    claimID
+    amount
+    date
+    reimbursementFiled
+    reimbursementReceived
+    service {
+      serviceCoveredID
+      name
+      percentageCovered
+      maxAmount
+      maxVisits
+      maxUnits
+      unitMinutesSize
+      timePeriod
+    }
+  }
+}
+
+# Input for creating a Claim
+input CreateClaimInput {
+  amount: Float!
+  date: String!
+  reimbursementFiled: Boolean!
+  serviceCoveredID: ID!
+  userUid: ID!
+}

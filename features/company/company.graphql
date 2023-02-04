@@ -1,0 +1,7 @@
+type Company {
+  companyID: ID!
+  name: String!
+  logo: String!
+  location: String!
+  insurancePlans: [InsurancePlan]!
+}

@@ -1,0 +1,26 @@
+type Provider {
+  providerID: ID!
+  name: String!
+  phone: String!
+  email: String
+  website: String
+  description: String
+  address: String
+  latitude: String
+  longitude: String
+  acceptingNew: Boolean
+  virtualAvailable: Boolean!
+  reimbursementHandling: Boolean!
+  insuranceCompaniesCompatible: [InsuranceCompany]
+  servicesCoveredName: [String]!
+  # reviews: [Review]
+  #listings: [String]
+}
+
+# type Review {
+#   reviewID: ID!
+#   user: User!
+#   rating: Float!
+#   comment: String
+#   date: String
+# }

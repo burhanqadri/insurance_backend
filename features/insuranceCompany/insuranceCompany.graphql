@@ -1,0 +1,6 @@
+type InsuranceCompany {
+  insuranceCompanyID: ID!
+  name: String!
+  howToTrack: String
+  howToReimburse: String
+}

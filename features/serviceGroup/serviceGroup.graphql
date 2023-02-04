@@ -1,0 +1,9 @@
+type ServiceGroup {
+  serviceGroupID: ID!
+  name: String!
+  percentageCovered: Int!
+  maxCombined: Int!
+  timePeriod: Int!
+  insurancePlan: InsurancePlan!
+  services: [ServiceCovered]!
+}
