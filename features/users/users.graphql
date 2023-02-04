@@ -1,9 +1,17 @@
 type User {
   uid: ID!
-  name: String!
-  email: String!
-  location: String!
-  company: String!
+  phone: String!
+  company: Company
+  insurancePlan: InsurancePlan
+  # insurancePlan: [InsurancePlan]!
+  #age
+  #country
+  claims: [Claim]
+  name: String
+  email: String
+  address: String
+  latitude: String
+  longitude: String
 }
 
 type Query {
@@ -12,17 +20,27 @@ type Query {
 
 type Mutation {
   createUser(
-    uid: String!
-    name: String!
-    email: String!
-    location: String!
-    company: String!
-  ): User
-  updateUser(
-    uid: String!
+    uid: ID!
+    phone: String!
+    company: Company
+    insurancePlan: InsurancePlan
+    claims: [Claim]
     name: String
     email: String
-    location: String
-    company: String
+    address: String
+    latitude: String
+    longitude: String
+  ): User
+  updateUser(
+    uid: ID!
+    phone: String
+    company: Company
+    insurancePlan: InsurancePlan
+    claims: [Claim]
+    name: String
+    email: String
+    address: String
+    latitude: String
+    longitude: String
   ): User
 }

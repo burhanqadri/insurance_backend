@@ -1,0 +1,349 @@
+type InsuranceCompany {
+  insuranceCompanyID: ID!
+  name: String!
+  howToTrack: String
+  howToReimburse: String
+}
+
+type Company {
+  companyID: ID!
+  name: String!
+  logo: String!
+  location: String!
+  insurancePlans: [InsurancePlan]!
+}
+
+type InsurancePlan {
+  insurancePlanID: ID!
+  type: String! #all, health, dental, drugs
+  name: String!
+  insuranceCompany: InsuranceCompany!
+  company: Company!
+  serviceGroups: [ServiceGroup]!
+}
+
+type ServiceGroup {
+  serviceGroupID: ID!
+  name: String!
+  percentageCovered: Int!
+  maxCombined: Int!
+  timePeriod: Int!
+  insurancePlan: InsurancePlan!
+  services: [ServiceCovered]!
+}
+
+type ServiceCovered {
+  serviceCoveredID: ID!
+  name: String!
+  percentageCovered: Int!
+  maxAmount: Int
+  maxVisits: Int
+  maxUnits: Int
+  unitMinutesSize: Int
+  timePeriod: Int! #calculate in months?
+  # providers: [Provider]!
+  serviceGroup: ServiceGroup!
+}
+
+type Provider {
+  providerID: ID!
+  name: String!
+  phone: String!
+  email: String
+  website: String
+  description: String
+  address: String
+  latitude: String
+  longitude: String
+  acceptingNew: Boolean
+  virtualAvailable: Boolean!
+  reimbursementHandling: Boolean!
+  insuranceCompaniesCompatible: [InsuranceCompany]
+  servicesCoveredName: [String]!
+  # reviews: [Review]
+  #listings: [String]
+}
+
+# type Review {
+#   reviewID: ID!
+#   user: User!
+#   rating: Float!
+#   comment: String
+#   date: String
+# }
+
+type Claim {
+  claimID: ID!
+  user: User!
+  # userUid: String!
+  #provider: Provider
+  amount: Float!
+  date: String!
+  reimbursementFiled: Boolean
+  reimbursementReceived: Boolean
+  service: ServiceCovered!
+}
+
+type User {
+  uid: ID!
+  phone: String!
+  company: Company
+  insurancePlan: InsurancePlan
+  # insurancePlan: [InsurancePlan]!
+  #age
+  #country
+  claims: [Claim]
+  name: String
+  email: String
+  address: String
+  latitude: String
+  longitude: String
+}
+
+# Get all Insurance Companies
+query allInsuranceCompanies {
+  allInsuranceCompanies {
+    insuranceCompanyID
+    name
+    howToTrack
+    howToReimburse
+  }
+}
+
+# Get a specific Insurance Company by ID
+query insuranceCompanyById($insuranceCompanyID: ID!) {
+  insuranceCompanyById(insuranceCompanyID: $insuranceCompanyID) {
+    insuranceCompanyID
+    name
+    howToTrack
+    howToReimburse
+  }
+}
+
+# Get all Companies
+query allCompanies {
+  allCompanies {
+    companyID
+    name
+    logo
+    location
+    insurancePlans {
+      insurancePlanID
+      type
+      name
+      serviceGroups {
+        serviceGroupID
+        name
+        percentageCovered
+        maxCombined
+        timePeriod
+        services {
+          serviceCoveredID
+          name
+          percentageCovered
+          maxAmount
+          maxVisits
+          maxUnits
+          unitMinutesSize
+          timePeriod
+        }
+      }
+    }
+  }
+}
+
+# Get a specific Company by ID
+query companyById($companyID: ID!) {
+  companyById(companyID: $companyID) {
+    companyID
+    name
+    logo
+    location
+    insurancePlans {
+      insurancePlanID
+      type
+      name
+      serviceGroups {
+        serviceGroupID
+        name
+        percentageCovered
+        maxCombined
+        timePeriod
+        services {
+          serviceCoveredID
+          name
+          percentageCovered
+          maxAmount
+          maxVisits
+          maxUnits
+          unitMinutesSize
+          timePeriod
+        }
+      }
+    }
+  }
+}
+
+# Get all Insurance Plans
+query allInsurancePlans {
+  allInsurancePlans {
+    insurancePlanID
+    type
+    name
+    insuranceCompany {
+      insuranceCompanyID
+      name
+      howToTrack
+      howToReimburse
+    }
+    company {
+      companyID
+      name
+      logo
+      location
+    }
+    serviceGroups {
+      serviceGroupID
+      name
+      percentageCovered
+      maxCombined
+      timePeriod
+      services {
+        serviceCoveredID
+        name
+        percentageCovered
+        maxAmount
+        maxVisits
+        maxUnits
+        unitMinutesSize
+        timePeriod
+      }
+    }
+  }
+}
+
+# Get a specific Insurance Plan by ID
+query insurancePlanById($insurancePlanID: ID!) {
+  insurancePlanById(insurancePlanID: $insurancePlanID) {
+    insurancePlanID
+    type
+    name
+    insuranceCompany {
+      insuranceCompanyID
+      name
+      howToTrack
+      howToReimburse
+    }
+    company {
+      companyID
+      name
+      logo
+      location
+    }
+    serviceGroups {
+      serviceGroupID
+      name
+      percentageCovered
+      maxCombined
+      timePeriod
+      services {
+        serviceCoveredID
+        name
+        percentageCovered
+        maxAmount
+        maxVisits
+        maxUnits
+        unitMinutesSize
+        timePeriod
+      }
+    }
+  }
+}
+
+#Get a specific Service Group by ID
+query serviceGroupById($serviceGroupID: ID!) {
+  serviceGroupById(serviceGroupID: $serviceGroupID) {
+    serviceGroupID
+    name
+    insurancePlans {
+      insurancePlanID
+      type
+      name
+      insuranceCompany {
+        insuranceCompanyID
+        name
+        howToTrack
+        howToReimburse
+      }
+      company {
+        companyID
+        name
+        logo
+        location
+      }
+      servicesCovered {
+        serviceGroupID
+        name
+        percentageCovered
+        maxCombined
+        timePeriod
+        services {
+          serviceCoveredID
+          name
+          percentageCovered
+          maxAmount
+          maxVisits
+          maxUnits
+          unitMinutesSize
+          timePeriod
+        }
+      }
+    }
+  }
+}
+
+#Get all Services Covered
+query allServicesCovered {
+  allServicesCovered {
+    serviceCoveredID
+    name
+    serviceGroup {
+      serviceGroupID
+      name
+    }
+    insurancePlans {
+      insurancePlanID
+      type
+      name
+      insuranceCompany {
+        insuranceCompanyID
+        name
+        howToTrack
+        howToReimburse
+      }
+      company {
+        companyID
+        name
+        logo
+        location
+      }
+      servicesCovered {
+        serviceGroupID
+        name
+        percentageCovered
+        maxCombined
+        timePeriod
+        services {
+          serviceCoveredID
+          name
+          percentageCovered
+          maxAmount
+          maxVisits
+          maxUnits
+          unitMinutesSize
+          timePeriod
+        }
+      }
+    }
+  }
+}
