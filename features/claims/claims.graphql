@@ -10,156 +10,29 @@ type Claim {
   service: ServiceCovered!
 }
 
-# Get all Claims
-query allClaims {
-  allClaims {
-    claimID
-    amount
-    date
-    reimbursementFiled
-    reimbursementReceived
-    service {
-      serviceCoveredID
-      name
-      percentageCovered
-      maxAmount
-      maxVisits
-      maxUnits
-      unitMinutesSize
-      timePeriod
-    }
-    user {
-      userID
-      name
-      email
-      phone
-      address
-      insurancePlans {
-        insurancePlanID
-        type
-        name
-        insuranceCompany {
-          insuranceCompanyID
-          name
-          howToTrack
-          howToReimburse
-        }
-        company {
-          companyID
-          name
-          logo
-          location
-        }
-        servicesCovered {
-          serviceGroupID
-          name
-          percentageCovered
-          maxCombined
-          timePeriod
-          services {
-            serviceCoveredID
-            name
-            percentageCovered
-            maxAmount
-            maxVisits
-            maxUnits
-            unitMinutesSize
-            timePeriod
-          }
-        }
-      }
-    }
-  }
+type Query {
+  getClaim(claimID: ID!): Claim
+  getClaims: [Claim]
 }
 
-# Get a specific Claim by ID
-query claimById($claimID: ID!) {
-  claimById(claimID: $claimID) {
-    claimID
-    amount
-    date
-    reimbursementFiled
-    reimbursementReceived
-    service {
-      serviceCoveredID
-      name
-      percentageCovered
-      maxAmount
-      maxVisits
-      maxUnits
-      unitMinutesSize
-      timePeriod
-    }
-    user {
-      userID
-      firstName
-      lastName
-      email
-      phoneNumber
-      address
-      insurancePlans {
-        insurancePlanID
-        type
-        name
-        insuranceCompany {
-          insuranceCompanyID
-          name
-          howToTrack
-          howToReimburse
-        }
-        company {
-          companyID
-          name
-          logo
-          location
-        }
-        servicesCovered {
-          serviceGroupID
-          name
-          percentageCovered
-          maxCombined
-          timePeriod
-          services {
-            serviceCoveredID
-            name
-            percentageCovered
-            maxAmount
-            maxVisits
-            maxUnits
-            unitMinutesSize
-            timePeriod
-          }
-        }
-      }
-    }
-  }
+type Mutation {
+  createClaim(input: CreateClaimInput!): Claim
+  updateClaim(claimID: ID!, input: UpdateClaimInput!): Claim
 }
 
-mutation createClaim($input: CreateClaimInput!) {
-  createClaim(input: $input) {
-    claimID
-    amount
-    date
-    reimbursementFiled
-    reimbursementReceived
-    service {
-      serviceCoveredID
-      name
-      percentageCovered
-      maxAmount
-      maxVisits
-      maxUnits
-      unitMinutesSize
-      timePeriod
-    }
-  }
-}
-
-# Input for creating a Claim
 input CreateClaimInput {
+  userID: ID!
   amount: Float!
   date: String!
-  reimbursementFiled: Boolean!
-  serviceCoveredID: ID!
-  userUid: ID!
+  reimbursementFiled: Boolean
+  reimbursementReceived: Boolean
+  serviceID: ID!
+}
+
+input UpdateClaimInput {
+  amount: Float
+  date: String
+  reimbursementFiled: Boolean
+  reimbursementReceived: Boolean
+  serviceID: ID
 }

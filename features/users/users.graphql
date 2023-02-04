@@ -1,46 +1,15 @@
 type User {
   uid: ID!
   phone: String!
-  company: Company
-  insurancePlan: InsurancePlan
-  # insurancePlan: [InsurancePlan]!
-  #age
-  #country
+  company: [Company]
+  insurancePlan: [InsurancePlan]!
   claims: [Claim]
   name: String
   email: String
   address: String
   latitude: String
   longitude: String
-}
-
-type Query {
-  getUserBy(uid: ID!): User
-}
-
-type Mutation {
-  createUser(
-    uid: ID!
-    phone: String!
-    company: Company
-    insurancePlan: InsurancePlan
-    claims: [Claim]
-    name: String
-    email: String
-    address: String
-    latitude: String
-    longitude: String
-  ): User
-  updateUser(
-    uid: ID!
-    phone: String
-    company: Company
-    insurancePlan: InsurancePlan
-    claims: [Claim]
-    name: String
-    email: String
-    address: String
-    latitude: String
-    longitude: String
-  ): User
+  # insurancePlan: InsurancePlan
+  #age
+  #country
 }

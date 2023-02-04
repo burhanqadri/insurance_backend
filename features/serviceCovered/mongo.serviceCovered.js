@@ -1,26 +1,19 @@
 const mongoose = require("mongoose");
+const Schema = mongoose.Schema;
 
-const ServiceCoveredSchema = new mongoose.Schema(
-  {
-    name: {
-      type: String,
-      required: true,
-    },
-    maximum: {
-      type: Number,
-      required: true,
-    },
-    timePeriod: {
-      type: String,
-      required: true,
-    },
-    percentage: {
-      type: Number,
-      required: true,
-    },
+const ServiceCoveredSchema = new Schema({
+  serviceCoveredID: { type: String, required: true, unique: true },
+  name: { type: String, required: true },
+  percentageCovered: { type: Number, required: true },
+  maxAmount: Number,
+  maxVisits: Number,
+  maxUnits: Number,
+  unitMinutesSize: Number,
+  timePeriod: { type: Number, required: true },
+  serviceGroup: {
+    type: String,
+    required: true,
   },
-  { timestamps: true }
-);
+});
 
-const ServiceCovered = mongoose.model("ServiceCovered", ServiceCoveredSchema);
-module.exports = ServiceCovered;
+module.exports = mongoose.model("ServiceCovered", ServiceCoveredSchema);

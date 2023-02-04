@@ -1,28 +1,33 @@
 const mongoose = require("mongoose");
+const Schema = mongoose.Schema;
 
-const InsurancePlanSchema = new mongoose.Schema(
-  {
-    name: {
-      type: String,
-      required: true,
-    },
-    servicesCovered: [
-      {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "ServiceCovered",
-      },
-    ],
-    percentage: {
-      type: Number,
-      required: true,
-    },
-    company: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Company",
-    },
+const InsurancePlanSchema = new Schema({
+  insurancePlanID: {
+    type: String,
+    required: true,
+    unique: true,
   },
-  { timestamps: true }
-);
+  type: {
+    type: String,
+    required: true,
+  },
+  name: {
+    type: String,
+    required: true,
+  },
+  insuranceCompany: {
+    type: String,
+    required: true,
+  },
+  company: {
+    type: String,
+    required: true,
+  },
+  serviceGroups: [
+    {
+      type: String,
+    },
+  ],
+});
 
-const InsurancePlan = mongoose.model("InsurancePlan", InsurancePlanSchema);
-module.exports = InsurancePlan;
+module.exports = mongoose.model("InsurancePlan", InsurancePlanSchema);
