@@ -11,12 +11,69 @@ type Provider {
   acceptingNew: Boolean
   virtualAvailable: Boolean!
   reimbursementHandling: Boolean!
-  insuranceCompaniesCompatible: [InsuranceCompany]
+  insuranceCompaniesCompatible: [InsuranceCompany]!
   servicesCoveredName: [String]!
   # reviews: [Review]
   #listings: [String]
 }
 
+type Query {
+  provider(providerID: ID!): Provider
+  providers: [Provider]
+}
+
+type Mutation {
+  createProvider(
+    name: String!
+    phone: String!
+    email: String
+    website: String
+    description: String
+    address: String
+    latitude: String
+    longitude: String
+    acceptingNew: Boolean
+    virtualAvailable: Boolean!
+    reimbursementHandling: Boolean!
+    insuranceCompaniesCompatible: [ID]!
+    servicesCoveredName: [String]!
+  ): Provider
+
+  updateProvider(
+    providerID: ID!
+    name: String
+    phone: String
+    email: String
+    website: String
+    description: String
+    address: String
+    latitude: String
+    longitude: String
+    acceptingNew: Boolean
+    virtualAvailable: Boolean
+    reimbursementHandling: Boolean
+    insuranceCompaniesCompatible: [ID]
+    servicesCoveredName: [String]
+  ): Provider
+
+  deleteProvider(providerID: ID!): Provider
+}
+
+input ProviderInput {
+  name: String!
+  phone: String!
+  email: String
+  website: String
+  description: String
+  address: String
+  latitude: String
+  longitude: String
+  acceptingNew: Boolean
+  virtualAvailable: Boolean!
+  reimbursementHandling: Boolean!
+  insuranceCompaniesCompatible: [ID]!
+  servicesCoveredName: [String]!
+}
 # type Review {
 #   reviewID: ID!
 #   user: User!

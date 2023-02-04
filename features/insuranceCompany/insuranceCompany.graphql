@@ -4,3 +4,77 @@ type InsuranceCompany {
   howToTrack: String
   howToReimburse: String
 }
+
+type Query {
+  insuranceCompany(insuranceCompanyID: ID!): InsuranceCompany
+  insuranceCompanies: [InsuranceCompany]
+}
+
+type Mutation {
+  createInsuranceCompany(
+    name: String!
+    howToTrack: String
+    howToReimburse: String
+  ): InsuranceCompany
+  updateInsuranceCompany(
+    insuranceCompanyID: ID!
+    name: String
+    howToTrack: String
+    howToReimburse: String
+  ): InsuranceCompany
+  deleteInsuranceCompany(insuranceCompanyID: ID!): InsuranceCompany
+}
+
+input InsuranceCompanyInput {
+  name: String!
+  howToTrack: String
+  howToReimburse: String
+}
+
+#SAMPLE USE
+# query GetInsuranceCompany($insuranceCompanyID: ID!) {
+#   getInsuranceCompany(insuranceCompanyID: $insuranceCompanyID) {
+#     insuranceCompanyID
+#     name
+#     howToTrack
+#     howToReimburse
+#   }
+# }
+
+# query GetInsuranceCompanies {
+#   getInsuranceCompanies {
+#     insuranceCompanyID
+#     name
+#     howToTrack
+#     howToReimburse
+#   }
+# }
+# mutation CreateInsuranceCompany($insuranceCompanyInput: InsuranceCompanyInput!) {
+#   createInsuranceCompany(insuranceCompanyInput: $insuranceCompanyInput) {
+#     insuranceCompanyID
+#     name
+#     howToTrack
+#     howToReimburse
+#   }
+# }
+
+# mutation UpdateInsuranceCompany($insuranceCompanyID: ID!, $insuranceCompanyInput: InsuranceCompanyInput!) {
+#   updateInsuranceCompany(insuranceCompanyID: $insuranceCompanyID, insuranceCompanyInput: $insuranceCompanyInput) {
+#     insuranceCompanyID
+#     name
+#     howToTrack
+#     howToReimburse
+#   }
+# }
+
+# mutation DeleteInsuranceCompany($insuranceCompanyID: ID!) {
+#   deleteInsuranceCompany(insuranceCompanyID: $insuranceCompanyID) {
+#     insuranceCompanyID
+#   }
+# }
+
+# input InsuranceCompanyInput {
+#   name: String!
+#   howToTrack: String
+#   howToReimburse: String
+# }

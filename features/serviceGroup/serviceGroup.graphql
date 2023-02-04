@@ -7,3 +7,39 @@ type ServiceGroup {
   insurancePlan: InsurancePlan!
   services: [ServiceCovered]!
 }
+
+type Query {
+  allServiceGroups: [ServiceGroup]
+  serviceGroup(serviceGroupID: ID!): ServiceGroup
+}
+
+type Mutation {
+  createServiceGroup(
+    name: String!
+    percentageCovered: Int!
+    maxCombined: Int!
+    timePeriod: Int!
+    insurancePlan: InsurancePlanInput!
+    services: [ServiceCoveredInput]!
+  ): ServiceGroup
+
+  updateServiceGroup(
+    serviceGroupID: ID!
+    name: String
+    percentageCovered: Int
+    maxCombined: Int
+    timePeriod: Int
+    insurancePlan: InsurancePlanInput
+    services: [ServiceCoveredInput]
+  ): ServiceGroup
+
+  deleteServiceGroup(serviceGroupID: ID!): Boolean
+}
+
+input InsurancePlanInput {
+  insurancePlanID: ID!
+}
+
+input ServiceCoveredInput {
+  serviceCoveredID: ID!
+}

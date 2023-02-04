@@ -1,7 +1,7 @@
-const InsurancePlan = require("path/to/InsurancePlan.model");
-const InsuranceCompany = require("path/to/InsuranceCompany.model");
-const ServiceGroup = require("path/to/ServiceGroup.model");
-const Company = require("path/to/Company.model");
+const InsurancePlan = require("./mongo.InsurancePlan");
+const InsuranceCompany = require("../insuranceCompany/mongo.insuranceCompany");
+const ServiceGroup = require("../serviceGroup/mongo.serviceGroup");
+const Company = require("../company/mongo.company");
 
 module.exports = {
   Query: {

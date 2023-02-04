@@ -5,3 +5,32 @@ type Company {
   location: String!
   insurancePlans: [InsurancePlan]!
 }
+
+type Query {
+  companies: [Company]
+  company(companyID: ID!): Company
+}
+
+type Mutation {
+  createCompany(
+    name: String!
+    logo: String!
+    location: String!
+    insurancePlans: [ID]!
+  ): Company
+  updateCompany(
+    companyID: ID!
+    name: String
+    logo: String
+    location: String
+    insurancePlans: [ID]
+  ): Company
+  deleteCompany(companyID: ID!): Company
+}
+
+input CompanyInput {
+  name: String!
+  logo: String!
+  location: String!
+  insurancePlans: [ID]!
+}

@@ -13,3 +13,35 @@ type User {
   #age
   #country
 }
+
+type Query {
+  getUser(uid: ID!): User
+  getUsers: [User]
+}
+
+type Mutation {
+  createUser(input: CreateUserInput!): User
+  updateUser(uid: ID!, input: UpdateUserInput!): User
+}
+
+input CreateUserInput {
+  phone: String!
+  companyID: ID
+  insurancePlanID: ID
+  name: String
+  email: String
+  address: String
+  latitude: String
+  longitude: String
+}
+
+input UpdateUserInput {
+  phone: String
+  companyID: ID
+  insurancePlanID: ID
+  name: String
+  email: String
+  address: String
+  latitude: String
+  longitude: String
+}
