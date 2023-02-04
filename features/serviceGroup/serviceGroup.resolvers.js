@@ -6,7 +6,7 @@ const serviceGroupResolvers = {
   Query: {
     async allServiceGroups() {
       try {
-        const serviceGroups = await ServiceGroup.find();
+        const serviceGroups = await ServiceGroup.find({ insurancePlanID });
         return serviceGroups;
       } catch (err) {
         throw err;

@@ -9,7 +9,7 @@ type ServiceGroup {
 }
 
 type Query {
-  allServiceGroups: [ServiceGroup]
+  allServiceGroups(insurancePlanID: ID!): [ServiceGroup]
   serviceGroup(serviceGroupID: ID!): ServiceGroup
 }
 

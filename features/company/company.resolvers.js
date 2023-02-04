@@ -12,7 +12,9 @@ const resolvers = {
   },
   Mutation: {
     async createCompany(_, { name, logo, location, insurancePlans }) {
+      const newCompanyID = name + Date.now().toString();
       const company = new Company({
+        companyID: newCompanyID,
         name,
         logo,
         location,
@@ -34,13 +36,13 @@ const resolvers = {
       return await Company.findOneAndDelete({ companyID });
     },
   },
-  //   Company: {
-  //     async insurancePlans(company) {
-  //       return await InsurancePlan.find({
-  //         _id: { $in: company.insurancePlans },
-  //       });
-  //     },
-  //   },
+  Company: {
+    async insurancePlans(company) {
+      return await InsurancePlan.find({
+        insurancePlanID: { $in: company.insurancePlans },
+      });
+    },
+  },
 };
 
 module.exports = resolvers;

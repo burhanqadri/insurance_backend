@@ -1,14 +1,14 @@
 type User {
   uid: ID!
-  phone: String!
-  company: [Company]
-  insurancePlan: [InsurancePlan]!
+  phone: String
+  companies: [Company]
+  insurancePlans: [InsurancePlan]
   claims: [Claim]
-  name: String
-  email: String
-  address: String
-  latitude: String
-  longitude: String
+  # name: String
+  # email: String
+  # address: String
+  # latitude: String
+  # longitude: String
   # insurancePlan: InsurancePlan
   #age
   #country
@@ -16,7 +16,6 @@ type User {
 
 type Query {
   getUser(uid: ID!): User
-  getUsers: [User]
 }
 
 type Mutation {
@@ -25,23 +24,25 @@ type Mutation {
 }
 
 input CreateUserInput {
-  phone: String!
-  companyID: ID
-  insurancePlanID: ID
-  name: String
-  email: String
-  address: String
-  latitude: String
-  longitude: String
+  uid: ID!
+  phone: String
+  companyIDs: [ID]
+  insurancePlanIDs: [ID]
+  # name: String
+  # email: String
+  # address: String
+  # latitude: String
+  # longitude: String
 }
 
 input UpdateUserInput {
   phone: String
-  companyID: ID
-  insurancePlanID: ID
-  name: String
-  email: String
-  address: String
-  latitude: String
-  longitude: String
+  companyIDs: [ID]
+  insurancePlanIDs: [ID]
+  claimIDs: [ID]
+  # name: String
+  # email: String
+  # address: String
+  # latitude: String
+  # longitude: String
 }

@@ -8,14 +8,13 @@ const UserSchema = new Schema({
   },
   phone: {
     type: String,
-    required: true,
   },
-  company: [
+  companies: [
     {
       type: String,
     },
   ],
-  insurancePlan: [
+  insurancePlans: [
     {
       type: String,
     },
