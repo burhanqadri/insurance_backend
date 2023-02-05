@@ -14,10 +14,6 @@ const resolvers = {
   },
   Mutation: {
     createProvider: async (parent, args, context, info) => {
-      const insuranceCompanies = await InsuranceCompany.find({
-        name: { $in: args.insuranceCompaniesCompatible },
-      });
-
       const newProvider = new Provider({
         name: args.name,
         phone: args.phone,
@@ -30,7 +26,7 @@ const resolvers = {
         acceptingNew: args.acceptingNew,
         virtualAvailable: args.virtualAvailable,
         reimbursementHandling: args.reimbursementHandling,
-        insuranceCompaniesCompatible: insuranceCompanies,
+        insuranceCompaniesCompatible: args.insuranceCompaniesCompatible,
         servicesCoveredName: args.servicesCoveredName,
       });
 
@@ -38,10 +34,6 @@ const resolvers = {
       return savedProvider;
     },
     updateProvider: async (parent, args, context, info) => {
-      const insuranceCompanies = await InsuranceCompany.find({
-        name: { $in: args.insuranceCompaniesCompatible },
-      });
-
       const updatedProvider = await Provider.findOneAndUpdate(
         { providerID: args.providerID },
         {
@@ -56,7 +48,7 @@ const resolvers = {
           acceptingNew: args.acceptingNew,
           virtualAvailable: args.virtualAvailable,
           reimbursementHandling: args.reimbursementHandling,
-          insuranceCompaniesCompatible: insuranceCompanies,
+          insuranceCompaniesCompatible: args.insuranceCompaniesCompatible,
           servicesCoveredName: args.servicesCoveredName,
         },
         { new: true }
@@ -64,22 +56,22 @@ const resolvers = {
 
       return updatedProvider;
     },
-    deleteProvider: async (parent, args, context, info) => {
+    deleteProvider: async (_, { providerID }) => {
       const deletedProvider = await Provider.findOneAndDelete({
-        providerID: args.providerID,
+        providerID,
       });
       return deletedProvider;
     },
   },
-  // Provider: {
-  //   insuranceCompaniesCompatible: async (parent, args, context, info) => {
-  //     const insuranceCompanies = await InsuranceCompany.find({
-  //       _id: { $in: parent.insuranceCompaniesCompatible },
-  //     });
+  Provider: {
+    insuranceCompaniesCompatible: async (parent, args, context, info) => {
+      const insuranceCompanies = await InsuranceCompany.find({
+        insuranceCompanyID: { $in: parent.insuranceCompaniesCompatible },
+      });
 
-  //     return insuranceCompanies;
-  //   },
-  // },
+      return insuranceCompanies;
+    },
+  },
 };
 
 module.exports = resolvers;

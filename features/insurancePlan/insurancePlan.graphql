@@ -17,6 +17,7 @@ input InsurancePlanInput {
   name: String
   insuranceCompanyID: ID
   companyID: ID
+  serviceGroupIDs: [ID]
 }
 
 type Mutation {

@@ -1,26 +1,36 @@
-const InsuranceCompany = require("./mongo.insuranceCompany");
-
 const resolvers = {
   Query: {
-    insuranceCompanies: () => InsuranceCompany.find(),
-    insuranceCompany: (_, { insuranceCompanyID }) =>
-      InsuranceCompany.findOne({ insuranceCompanyID }),
+    insuranceCompany: async (_, { insuranceCompanyID }) => {
+      return await InsuranceCompany.findOne({ insuranceCompanyID });
+    },
+    insuranceCompanies: async (_, args, { InsuranceCompany }) => {
+      return await InsuranceCompany.find({});
+    },
   },
   Mutation: {
-    createInsuranceCompany: (_, args) => InsuranceCompany.create(args),
-    updateInsuranceCompany: (_, { insuranceCompanyID, ...rest }) =>
-      InsuranceCompany.findOneAndUpdate({ insuranceCompanyID }, rest, {
-        new: true,
-      }),
+    createInsuranceCompany: async (_, { name, howToTrack, howToReimburse }) => {
+      const newInsuranceCompany = await new InsuranceCompany({
+        name,
+        howToTrack,
+        howToReimburse,
+      }).save();
+      return newInsuranceCompany;
+    },
+    updateInsuranceCompany: async (
+      _,
+      { insuranceCompanyID, name, howToTrack, howToReimburse }
+    ) => {
+      const updatedInsuranceCompany = await InsuranceCompany.findOneAndUpdate(
+        { insuranceCompanyID },
+        { $set: { name, howToTrack, howToReimburse } }
+      );
+      return updatedInsuranceCompany;
+    },
     deleteInsuranceCompany: async (_, { insuranceCompanyID }) => {
-      const insuranceCompany = await InsuranceCompany.findOne({
+      const deletedInsuranceCompany = await InsuranceCompany.findOneAndDelete({
         insuranceCompanyID,
       });
-      if (!insuranceCompany) {
-        throw new Error("Insurance Company not found");
-      }
-      await insuranceCompany.delete();
-      return "Insurance Company deleted successfully";
+      return deletedInsuranceCompany;
     },
   },
 };

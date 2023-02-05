@@ -4,9 +4,11 @@ const ServiceCovered = require("../serviceCovered/mongo.serviceCovered");
 
 const serviceGroupResolvers = {
   Query: {
-    async allServiceGroups() {
+    async allServiceGroups(_, { insurancePlanID }) {
       try {
-        const serviceGroups = await ServiceGroup.find({ insurancePlanID });
+        const serviceGroups = await ServiceGroup.find({
+          insurancePlan: insurancePlanID,
+        });
         return serviceGroups;
       } catch (err) {
         throw err;
@@ -34,29 +36,15 @@ const serviceGroupResolvers = {
       }
     ) {
       try {
-        const insurancePlan = await InsurancePlan.findOne({ insurancePlanID });
-        if (!insurancePlan) {
-          throw new Error("Insurance plan not found");
-        }
-
-        const services = [];
-        for (const serviceID of serviceIDs) {
-          const service = await ServiceCovered.findOne({
-            serviceCoveredID: serviceID,
-          });
-          if (!service) {
-            throw new Error(`Service with ID ${serviceID} not found`);
-          }
-          services.push(service);
-        }
-
+        const newServiceGroupID = name + Date.now().toString();
         const serviceGroup = new ServiceGroup({
+          serviceGroupID: newServiceGroupID,
           name,
           percentageCovered,
           maxCombined,
           timePeriod,
-          insurancePlan,
-          services,
+          insurancePlan: insurancePlanID,
+          services: serviceIDs,
         });
 
         const result = await serviceGroup.save();
@@ -78,22 +66,6 @@ const serviceGroupResolvers = {
       }
     ) {
       try {
-        const insurancePlan = await InsurancePlan.findOne({ insurancePlanID });
-        if (!insurancePlan) {
-          throw new Error("Insurance plan not found");
-        }
-
-        const services = [];
-        for (const serviceID of serviceIDs) {
-          const service = await ServiceCovered.findOne({
-            serviceCoveredID: serviceID,
-          });
-          if (!service) {
-            throw new Error(`Service with ID ${serviceID} not found`);
-          }
-          services.push(service);
-        }
-
         const serviceGroup = await ServiceGroup.findOneAndUpdate(
           { serviceGroupID },
           {

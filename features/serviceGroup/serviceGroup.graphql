@@ -19,8 +19,8 @@ type Mutation {
     percentageCovered: Int!
     maxCombined: Int!
     timePeriod: Int!
-    insurancePlan: InsurancePlanInput!
-    services: [ServiceCoveredInput]!
+    insurancePlan: ID!
+    services: [ID]!
   ): ServiceGroup
 
   updateServiceGroup(
@@ -29,17 +29,9 @@ type Mutation {
     percentageCovered: Int
     maxCombined: Int
     timePeriod: Int
-    insurancePlan: InsurancePlanInput
-    services: [ServiceCoveredInput]
+    insurancePlan: ID
+    services: [ID]
   ): ServiceGroup
 
   deleteServiceGroup(serviceGroupID: ID!): Boolean
-}
-
-input InsurancePlanInput {
-  insurancePlanID: ID!
-}
-
-input ServiceCoveredInput {
-  serviceCoveredID: ID!
 }

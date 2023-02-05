@@ -13,9 +13,12 @@ module.exports = {
         throw error;
       }
     },
-    getClaims: async () => {
+    getClaims: async (_, { uid, serviceCoveredID }) => {
       try {
-        const claims = await Claim.find();
+        const claims = await Claim.find({
+          user: uid,
+          serviceCovered: serviceCoveredID,
+        });
         return claims;
       } catch (error) {
         console.log(error);
@@ -24,26 +27,17 @@ module.exports = {
     },
   },
   Mutation: {
-    createClaim: async (_, { input }) => {
+    async createClaim(_, { input }) {
       try {
-        const user = await User.findOne({ uid: input.userID });
-        if (!user) {
-          throw new Error("User not found");
-        }
-        const service = await ServiceCovered.findOne({
-          serviceID: input.serviceID,
-        });
-        if (!service) {
-          throw new Error("Service Covered not found");
-        }
-
+        const newClaimID = input.userID + Date.now().toString();
         const claim = new Claim({
+          claimID: newClaimID,
           amount: input.amount,
           date: input.date,
           reimbursementFiled: input.reimbursementFiled,
           reimbursementReceived: input.reimbursementReceived,
-          user: user,
-          service: service,
+          user: input.userID,
+          serviceCovered: input.serviceCoveredID,
         });
 
         await claim.save();
@@ -53,31 +47,14 @@ module.exports = {
         throw error;
       }
     },
-    updateClaim: async (_, { claimID, input }) => {
+    async updateClaim(_, { claimID, input }) {
       try {
-        const claim = await Claim.findOne({ claimID });
-        if (!claim) {
-          throw new Error("Claim not found");
-        }
-
-        const user = await User.findOne({ uid: input.userID });
-        if (!user) {
-          throw new Error("User not found");
-        }
-
-        const service = await ServiceCovered.findOne({
-          serviceID: input.serviceID,
-        });
-        if (!service) {
-          throw new Error("Service Covered not found");
-        }
-
         claim.amount = input.amount;
         claim.date = input.date;
         claim.reimbursementFiled = input.reimbursementFiled;
         claim.reimbursementReceived = input.reimbursementReceived;
-        claim.user = user;
-        claim.service = service;
+        claim.user = input.userID;
+        claim.serviceCovered = input.serviceCoveredID;
 
         await claim.save();
         return claim;
@@ -86,7 +63,7 @@ module.exports = {
         throw error;
       }
     },
-    addClaimToUser: async (_, { uid, claimID }) => {
+    async addClaimToUser(_, { uid, claimID }) {
       try {
         const user = await User.findOne({ uid });
         if (!user) {
@@ -102,7 +79,7 @@ module.exports = {
         throw error;
       }
     },
-    removeClaimFromUser: async (_, { uid, claimID }) => {
+    async deleteClaim(_, { uid, claimID }) {
       try {
         const user = await User.findOne({ uid });
         if (!user) {
@@ -112,11 +89,19 @@ module.exports = {
         user.claims = user.claims.filter((c) => c !== claimID);
 
         await user.save();
-        return user;
+        return await Claim.findOneAndDelete({ claimID });
       } catch (error) {
         console.log(error);
         throw error;
       }
     },
+    // Claim: {
+    //   user: (parent) => {
+    //     return User.findOne(parent.user);
+    //   },
+    //   serviceCovered: (parent) => {
+    //     return ServiceCovered.findOne(parent.serviceCovered);
+    //   },
+    // },
   },
 };

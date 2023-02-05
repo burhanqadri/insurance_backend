@@ -28,15 +28,12 @@ module.exports = {
     async createServiceCovered(_, { input }) {
       try {
         const { serviceGroupID, ...rest } = input;
-        const serviceGroup = await ServiceGroup.findOne({ serviceGroupID });
 
-        if (!serviceGroup) {
-          throw new Error(`ServiceGroup with id ${serviceGroupID} not found`);
-        }
-
+        const newServiceCoveredID = name + Date.now().toString();
         const newServiceCovered = new ServiceCovered({
+          serviceCoveredID: newServiceCoveredID,
           ...rest,
-          serviceGroup: serviceGroup._id,
+          serviceGroup: serviceGroupID,
         });
         await newServiceCovered.save();
 
@@ -49,7 +46,6 @@ module.exports = {
     async updateServiceCovered(_, { serviceCoveredID, input }) {
       try {
         const { serviceGroupID, ...rest } = input;
-        const serviceGroup = await ServiceGroup.findOne({ serviceGroupID });
 
         if (!serviceGroup) {
           throw new Error(`ServiceGroup with id ${serviceGroupID} not found`);
@@ -59,7 +55,7 @@ module.exports = {
           { serviceCoveredID },
           {
             ...rest,
-            serviceGroup: serviceGroup._id,
+            serviceGroup: serviceGroupID,
           },
           { new: true }
         );

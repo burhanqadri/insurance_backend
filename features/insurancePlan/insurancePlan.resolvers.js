@@ -14,9 +14,9 @@ module.exports = {
         throw error;
       }
     },
-    getInsurancePlans: async () => {
+    getInsurancePlans: async (_, { companyID }) => {
       try {
-        const insurancePlans = await InsurancePlan.find();
+        const insurancePlans = await InsurancePlan.find(); //TODO filter it by company
         return insurancePlans;
       } catch (error) {
         console.log(error);
@@ -27,28 +27,14 @@ module.exports = {
   Mutation: {
     createInsurancePlan: async (_, { input }) => {
       try {
-        const insuranceCompany = await InsuranceCompany.findOne({
-          insuranceCompanyID: input.insuranceCompanyID,
-        });
-        if (!insuranceCompany) {
-          throw new Error("Insurance Company not found");
-        }
-
-        const company = await Company.findOne({ companyID: input.companyID });
-        if (!company) {
-          throw new Error("Company not found");
-        }
-
-        const serviceGroups = input.serviceGroupIDs.map(async (sgID) => {
-          return await ServiceGroup.findOne({ serviceGroupID: sgID });
-        });
-
+        const newInsurancePlanID = input.name + Date.now().toString();
         const insurancePlan = new InsurancePlan({
+          insurancePlanID: newInsurancePlanID,
           type: input.type,
           name: input.name,
-          insuranceCompany: insuranceCompany,
-          company: company,
-          serviceGroups: serviceGroups,
+          insuranceCompany: input.insuranceCompanyID,
+          company: input.companyID,
+          serviceGroups: input.serviceGroupIDs,
         });
 
         await insurancePlan.save();
@@ -64,28 +50,11 @@ module.exports = {
         if (!insurancePlan) {
           throw new Error("Insurance Plan not found");
         }
-
-        const insuranceCompany = await InsuranceCompany.findOne({
-          insuranceCompanyID: input.insuranceCompanyID,
-        });
-        if (!insuranceCompany) {
-          throw new Error("Insurance Company not found");
-        }
-
-        const company = await Company.findOne({ companyID: input.companyID });
-        if (!company) {
-          throw new Error("Company not found");
-        }
-
-        const serviceGroups = input.serviceGroupIDs.map(async (sgID) => {
-          return await ServiceGroup.findOne({ serviceGroupID: sgID });
-        });
-
         insurancePlan.type = input.type;
         insurancePlan.name = input.name;
-        insurancePlan.insuranceCompany = insuranceCompany;
-        insurancePlan.company = company;
-        insurancePlan.serviceGroups = serviceGroups;
+        insurancePlan.insuranceCompany = input.insuranceCompanyID;
+        insurancePlan.company = input.companyID;
+        insurancePlan.serviceGroups = input.serviceGroupIDs;
 
         await insurancePlan.save();
         return insurancePlan;
@@ -95,39 +64,39 @@ module.exports = {
       }
     },
   },
-  // InsurancePlan: {
-  //   insuranceCompany: async (parent) => {
-  //     try {
-  //       const insuranceCompany = await InsuranceCompany.findById(
-  //         parent.insuranceCompany
-  //       );
-  //       return insuranceCompany;
-  //     } catch (error) {
-  //       console.log(error);
-  //       throw error;
-  //     }
-  //   },
-  //   company: async (parent) => {
-  //     try {
-  //       const company = await Company.findById(parent.company);
-  //       return company;
-  //     } catch (error) {
-  //       console.log(error);
-  //       throw error;
-  //     }
-  //   },
-  //   serviceGroups: async (parent) => {
-  //     try {
-  //       const serviceGroups = await Promise.all(
-  //         parent.serviceGroups.map(async (sg) => {
-  //           return await ServiceGroup.findById(sg);
-  //         })
-  //       );
-  //       return serviceGroups;
-  //     } catch (error) {
-  //       console.log(error);
-  //       throw error;
-  //     }
-  //   },
-  // },
+  InsurancePlan: {
+    insuranceCompany: async (parent) => {
+      try {
+        const insuranceCompany = await InsuranceCompany.findOne({
+          insuranceCompanyID: parent.insuranceCompany,
+        });
+        return insuranceCompany;
+      } catch (error) {
+        console.log(error);
+        throw error;
+      }
+    },
+    company: async (parent) => {
+      try {
+        const company = await Company.findOne({ companyID: parent.company });
+        return company;
+      } catch (error) {
+        console.log(error);
+        throw error;
+      }
+    },
+    serviceGroups: async (parent) => {
+      try {
+        const serviceGroups = await Promise.all(
+          parent.serviceGroups.map(async (sg) => {
+            return await ServiceGroup.findOne({ serviceGroupID: sg });
+          })
+        );
+        return serviceGroups;
+      } catch (error) {
+        console.log(error);
+        throw error;
+      }
+    },
+  },
 };

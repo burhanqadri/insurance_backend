@@ -13,7 +13,6 @@ type Query {
 
 type Mutation {
   createCompany(
-    companyID: ID!
     name: String!
     logo: String
     location: String

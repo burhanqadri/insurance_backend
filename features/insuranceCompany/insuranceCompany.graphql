@@ -3,6 +3,7 @@ type InsuranceCompany {
   name: String!
   howToTrack: String
   howToReimburse: String
+  #location: String
 }
 
 type Query {
@@ -25,11 +26,11 @@ type Mutation {
   deleteInsuranceCompany(insuranceCompanyID: ID!): InsuranceCompany
 }
 
-input InsuranceCompanyInput {
-  name: String!
-  howToTrack: String
-  howToReimburse: String
-}
+# input InsuranceCompanyInput {
+#   name: String!
+#   howToTrack: String
+#   howToReimburse: String
+# }
 
 #SAMPLE USE
 # query GetInsuranceCompany($insuranceCompanyID: ID!) {
