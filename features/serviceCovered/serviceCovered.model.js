@@ -1,6 +1,6 @@
 const ServiceCovered = require("./mongo.serviceCovered");
 
-async function getServiceCoveredBy(filter, limit = 3000) {
+async function getServicesCoveredBy(filter, limit = 3000) {
   Object.keys(filter).forEach((key) =>
     filter[key] === undefined ? delete filter[key] : {}
   );
@@ -43,7 +43,7 @@ async function updateServiceCovered(serviceCoveredID, serviceCoveredObj) {
 }
 
 module.exports = {
-  getServiceCoveredBy,
+  getServicesCoveredBy,
   createServiceCovered,
   updateServiceCovered,
 };

@@ -5,16 +5,13 @@ const serviceCoveredModel = require("./serviceCovered.model");
 
 module.exports = {
   Query: {
-    async getServiceCovered(_, { serviceCoveredID }) {
-      try {
-        const serviceCovered = await ServiceCovered.findOne({
-          serviceCoveredID,
-        });
-        return serviceCovered;
-      } catch (error) {
-        console.log(error);
-        return error;
-      }
+    async getServicesCoveredBy(_, args) {
+      return serviceCoveredModel.getServicesCoveredBy(
+        {
+          serviceGroup: args.serviceGroupID,
+        },
+        args.limit
+      );
     },
   },
   Mutation: {

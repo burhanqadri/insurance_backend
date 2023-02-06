@@ -8,8 +8,10 @@ type InsuranceCompany {
 }
 
 type Query {
-  insuranceCompany(insuranceCompanyID: ID!): InsuranceCompany
-  insuranceCompanies: [InsuranceCompany]
+  getInsuranceCompaniesBy(
+    insuranceCompanyID: ID
+    name: String
+  ): [InsuranceCompany]
 }
 
 type Mutation {

@@ -1,5 +1,5 @@
 const InsurancePlan = require("./mongo.insurancePlan");
-const InsurancePlan = require("../insurancePlan/mongo.insurancePlan");
+const InsuranceCmpany = require("../insuranceCompany/mongo.insuranceCompany");
 const ServiceGroup = require("../serviceGroup/mongo.serviceGroup");
 const Company = require("../company/mongo.company");
 
@@ -21,7 +21,7 @@ module.exports = {
       return insurancePlanModel.createInsurancePlan({
         type: input.type,
         name: input.name,
-        insurancePlan: input.insurancePlanID,
+        insuranceCompany: input.insuranceCompany,
         company: input.companyID,
         serviceGroups: input.serviceGroupIDs,
       });
@@ -31,7 +31,7 @@ module.exports = {
       return insurancePlanModel.updateInsurancePlan(insurancePlanID, {
         type: input.type,
         name: input.name,
-        insurancePlan: input.insurancePlanID,
+        insuranceCompany: input.insuranceCompany,
         company: input.companyID,
         serviceGroups: input.serviceGroupIDs,
       });
@@ -43,12 +43,12 @@ module.exports = {
     },
   },
   InsurancePlan: {
-    insurancePlan: async (parent) => {
+    insuranceCompany: async (parent) => {
       try {
-        const insurancePlan = await InsurancePlan.findOne({
-          insurancePlanID: parent.insurancePlan,
+        const insuranceCompany = await InsuranceCompany.findOne({
+          insuranceCompanyID: parent.insuranceCompany,
         });
-        return insurancePlan;
+        return insuranceCompany;
       } catch (error) {
         console.log(error);
         throw error;
