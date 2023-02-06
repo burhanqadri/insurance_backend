@@ -1,6 +1,8 @@
 const Company = require("./mongo.company");
 const InsurancePlan = require("../insurancePlan/mongo.insurancePlan");
 
+const companyModel = require("./company.model");
+
 const resolvers = {
   Query: {
     getCompaniesBy: async (_, args) => {

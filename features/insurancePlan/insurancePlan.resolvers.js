@@ -1,76 +1,54 @@
 const InsurancePlan = require("./mongo.insurancePlan");
-const InsuranceCompany = require("../insuranceCompany/mongo.insuranceCompany");
+const InsurancePlan = require("../insurancePlan/mongo.insurancePlan");
 const ServiceGroup = require("../serviceGroup/mongo.serviceGroup");
 const Company = require("../company/mongo.company");
 
 module.exports = {
   Query: {
-    getInsurancePlan: async (_, { insurancePlanID }) => {
-      try {
-        const insurancePlan = await InsurancePlan.findOne({ insurancePlanID });
-        return insurancePlan;
-      } catch (error) {
-        console.log(error);
-        throw error;
-      }
-    },
-    getInsurancePlans: async (_, { companyID }) => {
-      try {
-        const insurancePlans = await InsurancePlan.find(); //TODO filter it by company
-        return insurancePlans;
-      } catch (error) {
-        console.log(error);
-        throw error;
-      }
+    getInsurancePlansBy: async (_, args) => {
+      return insurancePlanModel.getCompaniesBy(
+        {
+          insurancePlanID: args.insurancePlanID,
+          name: args.name,
+          company: args.companyID,
+        },
+        args.limit
+      );
     },
   },
   Mutation: {
-    createInsurancePlan: async (_, { input }) => {
-      try {
-        const newInsurancePlanID = input.name + Date.now().toString();
-        const insurancePlan = new InsurancePlan({
-          insurancePlanID: newInsurancePlanID,
-          type: input.type,
-          name: input.name,
-          insuranceCompany: input.insuranceCompanyID,
-          company: input.companyID,
-          serviceGroups: input.serviceGroupIDs,
-        });
-
-        await insurancePlan.save();
-        return insurancePlan;
-      } catch (error) {
-        console.log(error);
-        throw error;
-      }
+    createInsurancePlan: (_, { input }) => {
+      return insurancePlanModel.createInsurancePlan({
+        type: input.type,
+        name: input.name,
+        insurancePlan: input.insurancePlanID,
+        company: input.companyID,
+        serviceGroups: input.serviceGroupIDs,
+      });
     },
-    updateInsurancePlan: async (_, { insurancePlanID, input }) => {
-      try {
-        const insurancePlan = await InsurancePlan.findOne({ insurancePlanID });
-        if (!insurancePlan) {
-          throw new Error("Insurance Plan not found");
-        }
-        insurancePlan.type = input.type;
-        insurancePlan.name = input.name;
-        insurancePlan.insuranceCompany = input.insuranceCompanyID;
-        insurancePlan.company = input.companyID;
-        insurancePlan.serviceGroups = input.serviceGroupIDs;
 
-        await insurancePlan.save();
-        return insurancePlan;
-      } catch (error) {
-        console.log(error);
-        throw error;
-      }
+    updateInsurancePlan: async (_, { insurancePlanID, input }) => {
+      return insurancePlanModel.updateInsurancePlan(insurancePlanID, {
+        type: input.type,
+        name: input.name,
+        insurancePlan: input.insurancePlanID,
+        company: input.companyID,
+        serviceGroups: input.serviceGroupIDs,
+      });
+    },
+    deleteInsurancePlan: async (_, { insurancePlanID }) => {
+      return insurancePlanModel.updateInsurancePlan(args.insurancePlanID, {
+        deleted: true,
+      });
     },
   },
   InsurancePlan: {
-    insuranceCompany: async (parent) => {
+    insurancePlan: async (parent) => {
       try {
-        const insuranceCompany = await InsuranceCompany.findOne({
-          insuranceCompanyID: parent.insuranceCompany,
+        const insurancePlan = await InsurancePlan.findOne({
+          insurancePlanID: parent.insurancePlan,
         });
-        return insuranceCompany;
+        return insurancePlan;
       } catch (error) {
         console.log(error);
         throw error;

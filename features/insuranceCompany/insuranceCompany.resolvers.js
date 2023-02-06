@@ -1,36 +1,40 @@
+const InsuranceCompany = require("./mongo.insuranceCompany");
+const insuranceCompanyModel = require("./insuranceCompany.model");
+
 const resolvers = {
   Query: {
-    insuranceCompany: async (_, { insuranceCompanyID }) => {
-      return await InsuranceCompany.findOne({ insuranceCompanyID });
-    },
-    insuranceCompanies: async (_, args, { InsuranceCompany }) => {
-      return await InsuranceCompany.find({});
+    getInsuranceCompaniesBy: async (_, args) => {
+      return insuranceCompanyModel.getCompaniesBy(
+        {
+          insuranceCompanyID: args.insuranceCompanyID,
+          name: args.name,
+        },
+        args.limit
+      );
     },
   },
   Mutation: {
-    createInsuranceCompany: async (_, { name, howToTrack, howToReimburse }) => {
-      const newInsuranceCompany = await new InsuranceCompany({
-        name,
-        howToTrack,
-        howToReimburse,
-      }).save();
-      return newInsuranceCompany;
+    createInsuranceCompany: (_, { input }) => {
+      return insuranceCompanyModel.createInsuranceCompany({
+        name: input.name,
+        howToTrack: input.howToTrack,
+        howToReimburse: input.howToReimburse,
+      });
     },
-    updateInsuranceCompany: async (
-      _,
-      { insuranceCompanyID, name, howToTrack, howToReimburse }
-    ) => {
-      const updatedInsuranceCompany = await InsuranceCompany.findOneAndUpdate(
-        { insuranceCompanyID },
-        { $set: { name, howToTrack, howToReimburse } }
-      );
-      return updatedInsuranceCompany;
+    updateInsuranceCompany: async (_, { insuranceCompanyID, input }) => {
+      return insuranceCompanyModel.updateInsuranceCompany(insuranceCompanyID, {
+        name: input.name,
+        howToTrack: input.howToTrack,
+        howToReimburse: input.howToReimburse,
+      });
     },
     deleteInsuranceCompany: async (_, { insuranceCompanyID }) => {
-      const deletedInsuranceCompany = await InsuranceCompany.findOneAndDelete({
-        insuranceCompanyID,
-      });
-      return deletedInsuranceCompany;
+      return insuranceCompanyModel.updateInsuranceCompany(
+        args.insuranceCompanyID,
+        {
+          deleted: true,
+        }
+      );
     },
   },
 };

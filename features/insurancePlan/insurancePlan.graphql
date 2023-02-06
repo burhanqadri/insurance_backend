@@ -8,16 +8,7 @@ type InsurancePlan {
 }
 
 type Query {
-  getInsurancePlan(insurancePlanID: ID!): InsurancePlan
-  getInsurancePlans: [InsurancePlan]
-}
-
-input InsurancePlanInput {
-  type: String
-  name: String
-  insuranceCompanyID: ID
-  companyID: ID
-  serviceGroupIDs: [ID]
+  getInsurancePlansBy(insurancePlanID: ID, companyID: ID): [InsurancePlan]
 }
 
 type Mutation {
@@ -27,4 +18,12 @@ type Mutation {
     input: InsurancePlanInput!
   ): InsurancePlan
   deleteInsurancePlan(insurancePlanID: ID!): InsurancePlan
+}
+
+input InsurancePlanInput {
+  type: String
+  name: String
+  insuranceCompanyID: ID
+  companyID: ID
+  serviceGroupIDs: [ID]
 }

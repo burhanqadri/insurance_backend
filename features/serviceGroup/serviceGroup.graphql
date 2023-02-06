@@ -9,29 +9,23 @@ type ServiceGroup {
 }
 
 type Query {
-  allServiceGroups(insurancePlanID: ID!): [ServiceGroup]
-  serviceGroup(serviceGroupID: ID!): ServiceGroup
+  getServiceGroupsBy(insurancePlanID: ID): [ServiceGroup]
 }
 
 type Mutation {
-  createServiceGroup(
-    name: String!
-    percentageCovered: Int!
-    maxCombined: Int!
-    timePeriod: Int!
-    insurancePlan: ID!
-    services: [ID]!
-  ): ServiceGroup
-
+  createServiceGroup(input: ServiceGroupInput): ServiceGroup
   updateServiceGroup(
     serviceGroupID: ID!
-    name: String
-    percentageCovered: Int
-    maxCombined: Int
-    timePeriod: Int
-    insurancePlan: ID
-    services: [ID]
+    input: ServiceGroupInput
   ): ServiceGroup
-
   deleteServiceGroup(serviceGroupID: ID!): Boolean
+}
+
+input ServiceGroupInput {
+  name: String
+  percentageCovered: Int
+  maxCombined: Int
+  timePeriod: Int
+  insurancePlan: ID
+  serviceIDs: [ID]
 }

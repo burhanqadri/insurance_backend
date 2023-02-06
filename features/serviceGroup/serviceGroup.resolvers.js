@@ -2,104 +2,45 @@ const ServiceGroup = require("./mongo.serviceGroup");
 const InsurancePlan = require("../insurancePlan/mongo.insurancePlan");
 const ServiceCovered = require("../serviceCovered/mongo.serviceCovered");
 
+const serviceGroupModel = require("./serviceGroup.model");
+
 const serviceGroupResolvers = {
   Query: {
-    async allServiceGroups(_, { insurancePlanID }) {
-      try {
-        const serviceGroups = await ServiceGroup.find({
-          insurancePlan: insurancePlanID,
-        });
-        return serviceGroups;
-      } catch (err) {
-        throw err;
-      }
-    },
-    async serviceGroup(_, { serviceGroupID }) {
-      try {
-        const serviceGroup = await ServiceGroup.findOne({ serviceGroupID });
-        return serviceGroup;
-      } catch (err) {
-        throw err;
-      }
+    async getServiceGroupsBy(_, args) {
+      return serviceGroupModel.getServiceGroupsBy(
+        {
+          insurancePlanID: args.insurancePlanID,
+        },
+        args.limit
+      );
     },
   },
   Mutation: {
-    async createServiceGroup(
-      _,
-      {
-        name,
-        percentageCovered,
-        maxCombined,
-        timePeriod,
-        insurancePlanID,
-        serviceIDs,
-      }
-    ) {
-      try {
-        const newServiceGroupID = name + Date.now().toString();
-        const serviceGroup = new ServiceGroup({
-          serviceGroupID: newServiceGroupID,
-          name,
-          percentageCovered,
-          maxCombined,
-          timePeriod,
-          insurancePlan: insurancePlanID,
-          services: serviceIDs,
-        });
-
-        const result = await serviceGroup.save();
-        return result;
-      } catch (err) {
-        throw err;
-      }
+    createServiceGroup: (_, { input }) => {
+      return serviceGroupModel.createServiceGroup({
+        name: input.name,
+        percentageCovered: input.percentageCovered,
+        maxCombined: input.maxCombined,
+        timePeriod: input.timePeriod,
+        insurancePlan: input.insurancePlan,
+        services: input.serviceIDs,
+      });
     },
-    async updateServiceGroup(
-      _,
-      {
-        serviceGroupID,
-        name,
-        percentageCovered,
-        maxCombined,
-        timePeriod,
-        insurancePlanID,
-        serviceIDs,
-      }
-    ) {
-      try {
-        const serviceGroup = await ServiceGroup.findOneAndUpdate(
-          { serviceGroupID },
-          {
-            name,
-            percentageCovered,
-            maxCombined,
-            timePeriod,
-            insurancePlan,
-            services,
-          },
-          { new: true }
-        );
-
-        if (!serviceGroup) {
-          throw new Error("Service group not found");
-        }
-
-        return serviceGroup;
-      } catch (err) {
-        throw err;
-      }
+    updateServiceGroup: (_, { serviceGroupID, input }) => {
+      return serviceGroupModel.updateServiceGroup(serviceGroupID, {
+        name: input.name,
+        percentageCovered: input.percentageCovered,
+        maxCombined: input.maxCombined,
+        timePeriod: input.timePeriod,
+        insurancePlan: input.insurancePlan,
+        services: input.serviceIDs,
+      });
     },
+
     async deleteServiceGroup(_, { serviceGroupID }) {
-      try {
-        const serviceGroup = await ServiceGroup.findOneAndDelete({
-          serviceGroupID,
-        });
-        if (!serviceGroup) {
-          throw new Error("Service group not found");
-        }
-        return serviceGroup;
-      } catch (err) {
-        throw err;
-      }
+      return serviceGroupModel.updateServiceGroup(args.serviceGroupID, {
+        deleted: true,
+      });
     },
   },
 };
