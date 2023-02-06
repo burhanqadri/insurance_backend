@@ -3,6 +3,7 @@ type InsuranceCompany {
   name: String!
   howToTrack: String
   howToReimburse: String
+  deleted: Boolean
   #location: String
 }
 
@@ -21,9 +22,10 @@ type Mutation {
 }
 
 input InsuranceCompanyInput {
-  name: String!
+  name: String
   howToTrack: String
   howToReimburse: String
+  deleted: Boolean
 }
 
 #SAMPLE USE

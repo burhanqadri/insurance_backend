@@ -4,6 +4,7 @@ type Company {
   logo: String
   location: String
   insurancePlans: [InsurancePlan]
+  deleted: Boolean
 }
 
 type Query {
@@ -17,8 +18,9 @@ type Mutation {
 }
 
 input CompanyInput {
-  name: String!
+  name: String
   logo: String
   location: String
   insurancePlans: [ID]
+  deleted: Boolean
 }

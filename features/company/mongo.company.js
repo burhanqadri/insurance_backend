@@ -22,6 +22,10 @@ const CompanySchema = new mongoose.Schema(
         type: String,
       },
     ],
+    deleted: {
+      type: Boolean,
+      default: false,
+    },
   },
   { timestamps: true }
 );

@@ -32,6 +32,10 @@ const ServiceGroupSchema = new Schema(
         type: String,
       },
     ],
+    deleted: {
+      type: Boolean,
+      default: false,
+    },
   },
   { timestamps: true }
 );

@@ -18,6 +18,10 @@ const insuranceCompanySchema = new Schema(
     howToReimburse: {
       type: String,
     },
+    deleted: {
+      type: Boolean,
+      default: false,
+    },
   },
   { timestamps: true }
 );

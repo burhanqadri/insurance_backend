@@ -40,6 +40,10 @@ const UserSchema = new Schema(
     longitude: {
       type: String,
     },
+    deleted: {
+      type: Boolean,
+      default: false,
+    },
   },
   { timestamps: true }
 );

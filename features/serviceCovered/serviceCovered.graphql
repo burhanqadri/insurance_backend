@@ -8,7 +8,21 @@ type ServiceCovered {
   unitMinutesSize: Int
   timePeriod: Int #calculate in months?
   serviceGroup: ServiceGroup
+  deleted: Boolean
   # providers: [Provider]!
+}
+
+type Query {
+  getServicesCoveredBy(serviceGroupID: ID): [ServiceCovered]
+}
+
+type Mutation {
+  createServiceCovered(input: ServiceCoveredInput!): ServiceCovered
+  updateServiceCovered(
+    serviceCoveredID: ID!
+    input: ServiceCoveredInput!
+  ): ServiceCovered
+  deleteServiceCovered(serviceCoveredID: ID!): ServiceCovered
 }
 
 input ServiceCoveredInput {
@@ -20,20 +34,7 @@ input ServiceCoveredInput {
   unitMinutesSize: Int
   timePeriod: Int
   serviceGroupID: ID
-}
-
-type Query {
-  getServiceCovered(serviceCoveredID: ID!): ServiceCovered
-  getServiceCoverages: [ServiceCovered]
-}
-
-type Mutation {
-  createServiceCovered(input: ServiceCoveredInput!): ServiceCovered
-  updateServiceCovered(
-    serviceCoveredID: ID!
-    input: ServiceCoveredInput!
-  ): ServiceCovered
-  deleteServiceCovered(serviceCoveredID: ID!): ServiceCovered
+  deleted: Boolean
 }
 
 # query {

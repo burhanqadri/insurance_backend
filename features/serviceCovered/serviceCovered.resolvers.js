@@ -1,6 +1,8 @@
 const ServiceCovered = require("./mongo.serviceCovered");
 const ServiceGroup = require("../serviceGroup/mongo.serviceGroup");
 
+const serviceCoveredModel = require("./serviceCovered.model");
+
 module.exports = {
   Query: {
     async getServiceCovered(_, { serviceCoveredID }) {
@@ -14,68 +16,28 @@ module.exports = {
         return error;
       }
     },
-    async getServiceCoverages() {
-      try {
-        const serviceCoverages = await ServiceCovered.find();
-        return serviceCoverages;
-      } catch (error) {
-        console.log(error);
-        return error;
-      }
-    },
   },
   Mutation: {
     async createServiceCovered(_, { input }) {
-      try {
-        const { serviceGroupID, ...rest } = input;
-
-        const newServiceCoveredID = name + Date.now().toString();
-        const newServiceCovered = new ServiceCovered({
-          serviceCoveredID: newServiceCoveredID,
-          ...rest,
-          serviceGroup: serviceGroupID,
-        });
-        await newServiceCovered.save();
-
-        return newServiceCovered;
-      } catch (error) {
-        console.log(error);
-        return error;
-      }
+      return serviceCoveredModel.createServiceCovered({
+        name: input.name,
+        percentageCovered: input.percentageCovered,
+        maxAmount: input.maxAmount,
+        maxVisits: input.maxVisits,
+        maxUnits: input.maxUnits,
+        unitMinutesSize: input.unitMinutesSize,
+        timePeriod: input.timePeriod,
+        serviceGroupID: input.serviceGroupID,
+        deleted: input.deleted,
+      });
     },
     async updateServiceCovered(_, { serviceCoveredID, input }) {
-      try {
-        const { serviceGroupID, ...rest } = input;
-
-        if (!serviceGroup) {
-          throw new Error(`ServiceGroup with id ${serviceGroupID} not found`);
-        }
-
-        const updatedServiceCovered = await ServiceCovered.findOneAndUpdate(
-          { serviceCoveredID },
-          {
-            ...rest,
-            serviceGroup: serviceGroupID,
-          },
-          { new: true }
-        );
-
-        return updatedServiceCovered;
-      } catch (error) {
-        console.log(error);
-        return error;
-      }
+      return serviceCoveredModel.updateServiceCovered(serviceCoveredID, input);
     },
     async deleteServiceCovered(_, { serviceCoveredID }) {
-      try {
-        const deletedServiceCovered = await ServiceCovered.findOneAndDelete({
-          serviceCoveredID,
-        });
-        return deletedServiceCovered;
-      } catch (error) {
-        console.log(error);
-        return error;
-      }
+      return serviceCoveredModel.updateServiceCovered(args.serviceCoveredID, {
+        deleted: true,
+      });
     },
   },
 };

@@ -6,6 +6,7 @@ type ServiceGroup {
   timePeriod: Int!
   insurancePlan: InsurancePlan!
   services: [ServiceCovered]!
+  deleted: Boolean
 }
 
 type Query {
@@ -28,4 +29,5 @@ input ServiceGroupInput {
   timePeriod: Int
   insurancePlan: ID
   serviceIDs: [ID]
+  deleted: Boolean
 }

@@ -5,6 +5,7 @@ type InsurancePlan {
   insuranceCompany: InsuranceCompany!
   company: Company!
   serviceGroups: [ServiceGroup]!
+  deleted: Boolean
 }
 
 type Query {
@@ -26,4 +27,5 @@ input InsurancePlanInput {
   insuranceCompanyID: ID
   companyID: ID
   serviceGroupIDs: [ID]
+  deleted: Boolean
 }
