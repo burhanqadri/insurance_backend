@@ -1,70 +1,67 @@
 const Provider = require("./mongo.provider");
 const InsuranceCompany = require("../insuranceCompany/mongo.insuranceCompany");
 
+const providerModel = require("./provider.model");
+
 const resolvers = {
   Query: {
-    providers: async (parent, args, context, info) => {
-      const providers = await Provider.find();
-      return providers;
-    },
-    provider: async (parent, args, context, info) => {
-      const provider = await Provider.findOne({ providerID: args.providerID });
-      return provider;
-    },
-  },
-  Mutation: {
-    createProvider: async (parent, args, context, info) => {
-      const newProvider = new Provider({
-        name: args.name,
-        phone: args.phone,
-        email: args.email,
-        website: args.website,
-        description: args.description,
-        address: args.address,
-        latitude: args.latitude,
-        longitude: args.longitude,
-        acceptingNew: args.acceptingNew,
-        virtualAvailable: args.virtualAvailable,
-        reimbursementHandling: args.reimbursementHandling,
-        insuranceCompaniesCompatible: args.insuranceCompaniesCompatible,
-        servicesCoveredName: args.servicesCoveredName,
-      });
-
-      const savedProvider = await newProvider.save();
-      return savedProvider;
-    },
-    updateProvider: async (parent, args, context, info) => {
-      const updatedProvider = await Provider.findOneAndUpdate(
-        { providerID: args.providerID },
+    getProvidersBy: async (_, args) => {
+      return providerModel.getProvidersBy(
         {
-          name: args.name,
-          phone: args.phone,
-          email: args.email,
-          website: args.website,
-          description: args.description,
-          address: args.address,
           latitude: args.latitude,
           longitude: args.longitude,
           acceptingNew: args.acceptingNew,
           virtualAvailable: args.virtualAvailable,
           reimbursementHandling: args.reimbursementHandling,
-          insuranceCompaniesCompatible: args.insuranceCompaniesCompatible,
-          servicesCoveredName: args.servicesCoveredName,
         },
-        { new: true }
+        args.limit
       );
-
-      return updatedProvider;
     },
-    deleteProvider: async (_, { providerID }) => {
-      const deletedProvider = await Provider.findOneAndDelete({
-        providerID,
+  },
+  Mutation: {
+    createProvider: (_, { input }) => {
+      return providerModel.createProvider({
+        name: input.name,
+        phone: input.phone,
+        email: input.email,
+        website: input.website,
+        description: input.description,
+        address: input.address,
+        latitude: input.latitude,
+        longitude: input.longitude,
+        acceptingNew: input.acceptingNew,
+        virtualAvailable: input.virtualAvailable,
+        reimbursementHandling: input.reimbursementHandling,
+        insuranceCompaniesCompatible: input.insuranceCompaniesCompatible,
+        servicesCoveredName: input.servicesCoveredName,
       });
-      return deletedProvider;
+    },
+    updateProvider: (_, { providerID, input }) => {
+      return providerModel.updateProvider(providerID, {
+        name: input.name,
+        phone: input.phone,
+        email: input.email,
+        website: input.website,
+        description: input.description,
+        address: input.address,
+        latitude: input.latitude,
+        longitude: input.longitude,
+        acceptingNew: input.acceptingNew,
+        virtualAvailable: input.virtualAvailable,
+        reimbursementHandling: input.reimbursementHandling,
+        insuranceCompaniesCompatible: input.insuranceCompaniesCompatible,
+        servicesCoveredName: input.servicesCoveredName,
+        deleted: input.deleted,
+      });
+    },
+    deleteProvider: async (_, args) => {
+      return providerModel.updateProvider(args.providerID, {
+        deleted: true,
+      });
     },
   },
   Provider: {
-    insuranceCompaniesCompatible: async (parent, args, context, info) => {
+    insuranceCompaniesCompatible: async (parent, args) => {
       const insuranceCompanies = await InsuranceCompany.find({
         insuranceCompanyID: { $in: parent.insuranceCompaniesCompatible },
       });

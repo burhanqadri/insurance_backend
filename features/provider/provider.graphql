@@ -13,53 +13,34 @@ type Provider {
   reimbursementHandling: Boolean!
   insuranceCompaniesCompatible: [InsuranceCompany]!
   servicesCoveredName: [String]!
+  deleted: Boolean
   # reviews: [Review]
   #listings: [String]
 }
 
+# type Review {
+#   reviewID: ID!
+#   user: User!
+#   rating: Float!
+#   comment: String
+#   date: String
+# }
+
+# type ProviderType {
+#   name: String!
+# }
+
 type Query {
-  provider(providerID: ID!): Provider
-  providers: [Provider]
+  getProvidersBy: [Provider]
 }
 
 type Mutation {
-  createProvider(
-    name: String!
-    phone: String!
-    email: String
-    website: String
-    description: String
-    address: String
-    latitude: String
-    longitude: String
-    acceptingNew: Boolean
-    virtualAvailable: Boolean!
-    reimbursementHandling: Boolean!
-    insuranceCompaniesCompatible: [ID]!
-    servicesCoveredName: [String]!
-  ): Provider
-
-  updateProvider(
-    providerID: ID!
-    name: String
-    phone: String
-    email: String
-    website: String
-    description: String
-    address: String
-    latitude: String
-    longitude: String
-    acceptingNew: Boolean
-    virtualAvailable: Boolean
-    reimbursementHandling: Boolean
-    insuranceCompaniesCompatible: [ID]
-    servicesCoveredName: [String]
-  ): Provider
-
+  createProvider(input: CreateProviderInput): Provider
+  updateProvider(providerID: ID!, input: UpdateProviderInput): Provider
   deleteProvider(providerID: ID!): Provider
 }
 
-input ProviderInput {
+input CreateProviderInput {
   name: String!
   phone: String!
   email: String
@@ -74,10 +55,20 @@ input ProviderInput {
   insuranceCompaniesCompatible: [ID]!
   servicesCoveredName: [String]!
 }
-# type Review {
-#   reviewID: ID!
-#   user: User!
-#   rating: Float!
-#   comment: String
-#   date: String
-# }
+
+input UpdateProviderInput {
+  name: String!
+  phone: String!
+  email: String
+  website: String
+  description: String
+  address: String
+  latitude: String
+  longitude: String
+  acceptingNew: Boolean
+  virtualAvailable: Boolean!
+  reimbursementHandling: Boolean!
+  insuranceCompaniesCompatible: [ID]!
+  servicesCoveredName: [String]!
+  deleted: Boolean
+}

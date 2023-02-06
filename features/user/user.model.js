@@ -1,11 +1,11 @@
-const userDatabase = require("./mongo.user");
+const User = require("./mongo.user");
 
 async function getUserBy(filter) {
   Object.keys(filter).forEach((key) =>
     filter[key] === undefined ? delete filter[key] : {}
   );
 
-  return await userDatabase.findOne(filter);
+  return await User.findOne(filter);
 }
 
 async function createUser(userObj) {
@@ -13,7 +13,7 @@ async function createUser(userObj) {
     userObj[key] === undefined ? delete userObj[key] : {}
   );
 
-  var doc = new userDatabase(userObj);
+  var doc = new User(userObj);
 
   doc.save(function (err, doc) {
     if (err) return console.error(err);
@@ -28,7 +28,7 @@ async function updateUser(uid, userObj) {
     userObj[key] === undefined ? delete userObj[key] : {}
   );
 
-  return await userDatabase.findOneAndUpdate(
+  return await User.findOneAndUpdate(
     {
       uid,
     },

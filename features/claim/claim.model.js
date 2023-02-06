@@ -1,6 +1,7 @@
-const claimDatabase = require("./mongo.claim");
+const Claim = require("./mongo.claim");
+const User = require("../user/mongo.user");
 
-async function getUserClaimsBy(filter, limit = 28, startDate, endDate) {
+async function getUserClaimsBy(filter, limit = 300, startDate, endDate) {
   Object.keys(filter).forEach((key) =>
     filter[key] === undefined ? delete filter[key] : {}
   );
@@ -9,7 +10,7 @@ async function getUserClaimsBy(filter, limit = 28, startDate, endDate) {
     filter.createdAt = { $gte: startDate, $lt: endDate };
   }
 
-  return await claimDatabase.find(filter).sort({ createdAt: -1 }).limit(limit);
+  return await Claim.find(filter).sort({ createdAt: -1 }).limit(limit);
 }
 
 async function createClaim(claimObj) {
@@ -20,7 +21,7 @@ async function createClaim(claimObj) {
     claimObj[key] === undefined ? delete claimObj[key] : {}
   );
 
-  var doc = new claimDatabase(claimObj); // if this doesn't work, do new Claim
+  var doc = new Claim(claimObj); // if this doesn't work, do new Claim
 
   await doc.save(function (err, doc) {
     if (err) return console.error(err);
@@ -35,7 +36,7 @@ async function updateClaim(claimID, claimObj) {
     claimObj[key] === undefined ? delete claimObj[key] : {}
   );
 
-  return await claimDatabase.findOneAndUpdate(
+  return await Claim.findOneAndUpdate(
     {
       claimID,
     },
@@ -46,7 +47,26 @@ async function updateClaim(claimID, claimObj) {
   );
 }
 
+async function addClaimToUser(uid, claimID) {
+  try {
+    const user = await User.findOne({ uid });
+    if (!user) {
+      throw new Error("User not found");
+    }
+
+    user.claims.push(args.claimID);
+
+    await user.save();
+    return user;
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+}
+
 module.exports = {
   getUserClaimsBy,
   createClaim,
+  updateClaim,
+  addClaimToUser,
 };

@@ -11,8 +11,7 @@ type Claim {
 }
 
 type Query {
-  getClaim(claimID: ID!): Claim
-  getClaims(uid: ID!, serviceCoveredID: ID): [Claim]
+  getUserClaimsBy(uid: ID!, serviceCoveredID: ID): [Claim]
 }
 
 type Mutation {
@@ -37,4 +36,5 @@ input UpdateClaimInput {
   reimbursementFiled: Boolean
   reimbursementReceived: Boolean
   serviceCoveredID: ID
+  deleted: Boolean
 }

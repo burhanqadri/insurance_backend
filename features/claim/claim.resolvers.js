@@ -6,26 +6,16 @@ const claimModel = require("./claim.model");
 
 module.exports = {
   Query: {
-    getClaim: async (_, { claimID }) => {
-      try {
-        const claim = await Claim.findOne({ claimID });
-        return claim;
-      } catch (error) {
-        console.log(error);
-        throw error;
-      }
-    },
-    getClaims: async (_, { uid, serviceCoveredID }) => {
-      try {
-        const claims = await Claim.find({
-          user: uid,
-          serviceCovered: serviceCoveredID,
-        });
-        return claims;
-      } catch (error) {
-        console.log(error);
-        throw error;
-      }
+    getUserClaimsBy: async (_, args) => {
+      return claimModel.getUserClaimsBy(
+        {
+          uid: args.uid,
+          serviceCovered: args.serviceCoveredID,
+        },
+        args.limit, //what if this is undefined?
+        args.startDate,
+        args.endDate
+      );
     },
   },
   Mutation: {
@@ -49,24 +39,11 @@ module.exports = {
         serviceCovered: input.serviceCoveredID,
       });
     },
-    async addClaimToUser(_, { uid, claimID }) {
-      try {
-        const user = await User.findOne({ uid });
-        if (!user) {
-          throw new Error("User not found");
-        }
-
-        user.claims.push(claimID);
-
-        await user.save();
-        return user;
-      } catch (error) {
-        console.log(error);
-        throw error;
-      }
+    async addClaimToUser(_, args) {
+      return claimModel.addClaimToUser(args.uid, args.claimID);
     },
-    async deleteClaim(_, { claimID }) {
-      return claimModel.updateClaim(claimID, {
+    async deleteClaim(_, args) {
+      return claimModel.updateClaim(args.claimID, {
         deleted: true,
       });
     },

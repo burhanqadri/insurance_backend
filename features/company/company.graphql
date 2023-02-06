@@ -7,30 +7,18 @@ type Company {
 }
 
 type Query {
-  companies: [Company]
-  company(companyID: ID!): Company
+  getCompaniesBy(companyID: ID, name: String): [Company]
 }
 
 type Mutation {
-  createCompany(
-    name: String!
-    logo: String
-    location: String
-    insurancePlans: [ID]
-  ): Company
-  updateCompany(
-    companyID: ID!
-    name: String
-    logo: String
-    location: String
-    insurancePlans: [ID]
-  ): Company
+  createCompany(input: CompanyInput): Company
+  updateCompany(companyID: ID!, input: CompanyInput): Company
   deleteCompany(companyID: ID!): Company
 }
 
-# input CompanyInput {
-#   name: String!
-#   logo: String
-#   location: String
-#   insurancePlans: [ID]
-# }
+input CompanyInput {
+  name: String!
+  logo: String
+  location: String
+  insurancePlans: [ID]
+}

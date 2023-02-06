@@ -27,7 +27,7 @@ module.exports = {
       });
     },
     updateUser: (_, { uid, input }) => {
-      return userModel.updateUser(args.uid, {
+      return userModel.updateUser(uid, {
         phone: input.phone,
         // name: input.name,
         // email: input.email,
@@ -41,21 +41,21 @@ module.exports = {
     },
   },
   User: {
-    insurancePlans: async (parent, args, context, info) => {
+    insurancePlans: async (parent, args) => {
       return await Promise.all(
         parent.insurancePlans.map(async (ip) => {
           return await InsurancePlan.findOne({ insurancePlanID: ip });
         })
       );
     },
-    companies: async (parent, args, context, info) => {
+    companies: async (parent, args) => {
       return await Promise.all(
         parent.companies.map(async (c) => {
           return await Company.findOne({ companyID: c });
         })
       );
     },
-    claims: async (parent, args, context, info) => {
+    claims: async (parent, args) => {
       return await Promise.all(
         parent.claims.map(async (c) => {
           return await Claim.findOne({ claimID: c });

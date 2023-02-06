@@ -3,37 +3,37 @@ const InsurancePlan = require("../insurancePlan/mongo.insurancePlan");
 
 const resolvers = {
   Query: {
-    async companies(_, __) {
-      return await Company.find({});
-    },
-    async company(_, { companyID }) {
-      return await Company.findOne({ companyID });
+    getCompaniesBy: async (_, args) => {
+      return companyModel.getCompaniesBy(
+        {
+          companyID: args.companyID,
+          name: args.name,
+        },
+        args.limit
+      );
     },
   },
   Mutation: {
-    async createCompany(_, { name, logo, location, insurancePlans }) {
-      const newCompanyID = name + Date.now().toString();
-      const company = new Company({
-        companyID: newCompanyID,
-        name,
-        logo,
-        location,
-        insurancePlans,
+    createCompany: (_, { input }) => {
+      return companyModel.createCompany({
+        name: input.name,
+        logo: input.logo,
+        location: input.location,
+        insurancePlans: input.insurancePlans,
       });
-      return await company.save();
     },
-    async updateCompany(
-      _,
-      { companyID, name, logo, location, insurancePlans }
-    ) {
-      return await Company.findOneAndUpdate(
-        { companyID },
-        { name, logo, location, insurancePlans },
-        { new: true }
-      );
+    updateCompany: (_, { companyID, input }) => {
+      return companyModel.updateCompany(companyID, {
+        name: input.name,
+        logo: input.logo,
+        location: input.location,
+        insurancePlans: input.insurancePlans,
+      });
     },
-    async deleteCompany(_, { companyID }) {
-      return await Company.findOneAndDelete({ companyID });
+    async deleteCompany(_, args) {
+      return companyModel.updateCompany(args.companyID, {
+        deleted: true,
+      });
     },
   },
   Company: {
