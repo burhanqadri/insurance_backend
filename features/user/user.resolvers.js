@@ -8,7 +8,7 @@ const userModel = require("./user.model");
 module.exports = {
   Query: {
     getUserBy: async (_, { uid, deleted }) => {
-      return usersModel.getUserBy({ uid: uid, deleted: deleted });
+      return userModel.getUserBy({ uid: uid, deleted: deleted });
     },
   },
   Mutation: {
