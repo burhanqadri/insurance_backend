@@ -15,7 +15,7 @@ type User {
 }
 
 type Query {
-  getUser(uid: ID!): User
+  getUserBy(uid: ID!): User
 }
 
 type Mutation {
