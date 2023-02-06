@@ -31,6 +31,10 @@ const ClaimSchema = new Schema(
       type: String,
       required: true,
     },
+    deleted: {
+      type: Boolean,
+      default: false,
+    },
   },
   { timestamps: true }
 );

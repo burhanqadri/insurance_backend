@@ -6,6 +6,7 @@ type Claim {
   reimbursementFiled: Boolean
   reimbursementReceived: Boolean
   serviceCovered: ServiceCovered!
+  deleted: Boolean
   #provider: Provider
 }
 
@@ -17,12 +18,12 @@ type Query {
 type Mutation {
   createClaim(input: CreateClaimInput!): Claim
   updateClaim(claimID: ID!, input: UpdateClaimInput!): Claim
-  deleteClaim(claimID: ID!, uid: ID!): Claim
+  deleteClaim(claimID: ID!): Claim
   addClaimToUser(claimID: ID!, uid: ID!): Claim
 }
 
 input CreateClaimInput {
-  userID: ID!
+  uid: ID!
   amount: Float!
   date: String!
   reimbursementFiled: Boolean

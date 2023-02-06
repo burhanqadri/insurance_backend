@@ -2,6 +2,8 @@ const Claim = require("./mongo.claim");
 const User = require("../user/mongo.user");
 const ServiceCovered = require("../serviceCovered/mongo.serviceCovered");
 
+const claimModel = require("./claim.model");
+
 module.exports = {
   Query: {
     getClaim: async (_, { claimID }) => {
@@ -27,41 +29,25 @@ module.exports = {
     },
   },
   Mutation: {
-    async createClaim(_, { input }) {
-      try {
-        const newClaimID = input.userID + Date.now().toString();
-        const claim = new Claim({
-          claimID: newClaimID,
-          amount: input.amount,
-          date: input.date,
-          reimbursementFiled: input.reimbursementFiled,
-          reimbursementReceived: input.reimbursementReceived,
-          user: input.userID,
-          serviceCovered: input.serviceCoveredID,
-        });
-
-        await claim.save();
-        return claim;
-      } catch (error) {
-        console.log(error);
-        throw error;
-      }
+    createClaim: (_, { input }) => {
+      return claimModel.createClaim({
+        amount: input.amount,
+        date: input.date,
+        reimbursementFiled: input.reimbursementFiled,
+        reimbursementReceived: input.reimbursementReceived,
+        user: input.uid,
+        serviceCovered: input.serviceCoveredID,
+      });
     },
-    async updateClaim(_, { claimID, input }) {
-      try {
-        claim.amount = input.amount;
-        claim.date = input.date;
-        claim.reimbursementFiled = input.reimbursementFiled;
-        claim.reimbursementReceived = input.reimbursementReceived;
-        claim.user = input.userID;
-        claim.serviceCovered = input.serviceCoveredID;
-
-        await claim.save();
-        return claim;
-      } catch (error) {
-        console.log(error);
-        throw error;
-      }
+    updateClaim: (_, { claimID, input }) => {
+      return claimModel.updateClaim(claimID, {
+        amount: input.amount,
+        date: input.date,
+        reimbursementFiled: input.reimbursementFiled,
+        reimbursementReceived: input.reimbursementReceived,
+        user: input.uid,
+        serviceCovered: input.serviceCoveredID,
+      });
     },
     async addClaimToUser(_, { uid, claimID }) {
       try {
@@ -79,21 +65,10 @@ module.exports = {
         throw error;
       }
     },
-    async deleteClaim(_, { uid, claimID }) {
-      try {
-        const user = await User.findOne({ uid });
-        if (!user) {
-          throw new Error("User not found");
-        }
-
-        user.claims = user.claims.filter((c) => c !== claimID);
-
-        await user.save();
-        return await Claim.findOneAndDelete({ claimID });
-      } catch (error) {
-        console.log(error);
-        throw error;
-      }
+    async deleteClaim(_, { claimID }) {
+      return claimModel.updateClaim(claimID, {
+        deleted: true,
+      });
     },
     // Claim: {
     //   user: (parent) => {
