@@ -39,6 +39,11 @@ module.exports = {
         claims: input.claimIDs,
       });
     },
+    deleteUser(_, { uid }) {
+      return userModel.updateUser(uid, {
+        deleted: true,
+      });
+    },
   },
   User: {
     insurancePlans: async (parent, args) => {
