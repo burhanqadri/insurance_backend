@@ -8,6 +8,7 @@ const resolvers = {
     getProvidersBy: async (_, args) => {
       return providerModel.getProvidersBy(
         {
+          providerID: args.providerID,
           latitude: args.latitude,
           longitude: args.longitude,
           acceptingNew: args.acceptingNew,

@@ -31,7 +31,15 @@ type Provider {
 # }
 
 type Query {
-  getProvidersBy: [Provider]
+  getProvidersBy(
+    providerID: ID
+    latitude: String
+    longitude: String
+    acceptingNew: Boolean
+    virtualAvailable: Boolean
+    reimbursementHandling: Boolean
+    limit: Int
+  ): [Provider]
 }
 
 type Mutation {
