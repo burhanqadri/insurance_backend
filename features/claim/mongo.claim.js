@@ -11,6 +11,10 @@ const ClaimSchema = new Schema(
       type: String,
       required: true,
     },
+    insurancePlan: {
+      type: String,
+      required: true,
+    },
     amount: {
       type: Number,
       required: true,

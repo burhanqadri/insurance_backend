@@ -1,6 +1,7 @@
 type Claim {
   claimID: ID!
   user: User!
+  insurancePlan: InsurancePlan!
   amount: Float!
   date: String!
   reimbursementFiled: Boolean
@@ -11,7 +12,7 @@ type Claim {
 }
 
 type Query {
-  getUserClaimsBy(uid: ID!, serviceCoveredID: ID): [Claim]
+  getUserClaimsBy(uid: ID!, insurancePlanID: ID, serviceCoveredID: ID): [Claim]
 }
 
 type Mutation {
@@ -23,6 +24,7 @@ type Mutation {
 
 input CreateClaimInput {
   uid: ID!
+  insurancePlanID: ID!
   amount: Float!
   date: String!
   reimbursementFiled: Boolean

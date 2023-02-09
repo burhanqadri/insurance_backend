@@ -9,7 +9,8 @@ module.exports = {
     getUserClaimsBy: async (_, args) => {
       return claimModel.getUserClaimsBy(
         {
-          uid: args.uid,
+          user: args.uid,
+          insurancePlan: args.insurancePlanID,
           serviceCovered: args.serviceCoveredID,
         },
         args.limit, //what if this is undefined?
@@ -21,11 +22,12 @@ module.exports = {
   Mutation: {
     createClaim: (_, { input }) => {
       return claimModel.createClaim({
+        user: input.uid,
+        insurancePlan: input.insurancePlanID,
         amount: input.amount,
         date: input.date,
         reimbursementFiled: input.reimbursementFiled,
         reimbursementReceived: input.reimbursementReceived,
-        user: input.uid,
         serviceCovered: input.serviceCoveredID,
       });
     },

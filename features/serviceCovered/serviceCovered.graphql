@@ -7,7 +7,8 @@ type ServiceCovered {
   maxVisits: Int
   maxUnits: Int
   unitMinutesSize: Int
-  timePeriod: Int #calculate in months?
+  timePeriod: Int #calculate in months? what about per-calendar year
+  waitPeriodBetweenVisits: Int
   referralRequired: Boolean
   prescriptionRequired: Boolean
   notes: [String]
@@ -37,6 +38,7 @@ input ServiceCoveredInput {
   maxUnits: Int
   unitMinutesSize: Int
   timePeriod: Int
+  waitPeriodBetweenVisits: Int
   referralRequired: Boolean
   prescriptionRequired: Boolean
   notes: [String]

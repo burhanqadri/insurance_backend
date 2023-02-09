@@ -25,6 +25,7 @@ module.exports = {
         maxUnits: input.maxUnits,
         unitMinutesSize: input.unitMinutesSize,
         timePeriod: input.timePeriod,
+        waitPeriodBetweenVisits: input.waitPeriodBetweenVisits,
         referralRequired: input.referralRequired,
         prescriptionRequired: input.prescriptionRequired,
         notes: input.notes,
