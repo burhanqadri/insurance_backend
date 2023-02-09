@@ -15,6 +15,9 @@ const ServiceGroupSchema = new Schema(
       type: Number,
       required: true,
     },
+    maxLifetime: {
+      type: Number,
+    },
     maxCombined: {
       type: Number,
       required: true,

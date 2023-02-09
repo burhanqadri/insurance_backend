@@ -21,9 +21,11 @@ const ProviderSchema = new Schema(
     website: {
       type: String,
     },
-    description: {
-      type: String,
-    },
+    description: [
+      {
+        type: String,
+      },
+    ],
     address: {
       type: String,
     },

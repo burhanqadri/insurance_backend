@@ -20,6 +20,7 @@ const serviceGroupResolvers = {
       return serviceGroupModel.createServiceGroup({
         name: input.name,
         percentageCovered: input.percentageCovered,
+        maxLifetime: input.maxLifetime,
         maxCombined: input.maxCombined,
         timePeriod: input.timePeriod,
         insurancePlan: input.insurancePlan,
@@ -30,6 +31,7 @@ const serviceGroupResolvers = {
       return serviceGroupModel.updateServiceGroup(serviceGroupID, {
         name: input.name,
         percentageCovered: input.percentageCovered,
+        maxLifetime: input.maxLifetime,
         maxCombined: input.maxCombined,
         timePeriod: input.timePeriod,
         insurancePlan: input.insurancePlan,

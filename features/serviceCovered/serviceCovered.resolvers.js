@@ -19,11 +19,15 @@ module.exports = {
       return serviceCoveredModel.createServiceCovered({
         name: input.name,
         percentageCovered: input.percentageCovered,
+        maxLifetime: input.maxLifetime,
         maxAmount: input.maxAmount,
         maxVisits: input.maxVisits,
         maxUnits: input.maxUnits,
         unitMinutesSize: input.unitMinutesSize,
         timePeriod: input.timePeriod,
+        referralRequired: input.referralRequired,
+        prescriptionRequired: input.prescriptionRequired,
+        notes: input.notes,
         serviceGroupID: input.serviceGroupID,
         deleted: input.deleted,
       });

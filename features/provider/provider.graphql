@@ -4,7 +4,7 @@ type Provider {
   phone: String!
   email: String
   website: String
-  description: String
+  description: [String]
   address: String
   latitude: String
   longitude: String
@@ -53,7 +53,7 @@ input CreateProviderInput {
   phone: String!
   email: String
   website: String
-  description: String
+  description: [String]
   address: String
   latitude: String
   longitude: String
@@ -65,18 +65,18 @@ input CreateProviderInput {
 }
 
 input UpdateProviderInput {
-  name: String!
-  phone: String!
+  name: String
+  phone: String
   email: String
   website: String
-  description: String
+  description: [String]
   address: String
   latitude: String
   longitude: String
   acceptingNew: Boolean
-  virtualAvailable: Boolean!
+  virtualAvailable: Boolean
   reimbursementHandling: Boolean!
-  insuranceCompaniesCompatible: [ID]!
-  servicesCoveredName: [String]!
+  insuranceCompaniesCompatible: [ID]
+  servicesCoveredName: [String]
   deleted: Boolean
 }

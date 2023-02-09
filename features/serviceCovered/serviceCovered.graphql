@@ -2,14 +2,17 @@ type ServiceCovered {
   serviceCoveredID: ID!
   name: String
   percentageCovered: Int
+  maxLifeTime: Int
   maxAmount: Int
   maxVisits: Int
   maxUnits: Int
   unitMinutesSize: Int
   timePeriod: Int #calculate in months?
+  referralRequired: Boolean
+  prescriptionRequired: Boolean
+  notes: [String]
   serviceGroup: ServiceGroup
   deleted: Boolean
-  # providers: [Provider]!
 }
 
 type Query {
@@ -28,11 +31,15 @@ type Mutation {
 input ServiceCoveredInput {
   name: String
   percentageCovered: Int
+  maxLifeTime: Int
   maxAmount: Int
   maxVisits: Int
   maxUnits: Int
   unitMinutesSize: Int
   timePeriod: Int
+  referralRequired: Boolean
+  prescriptionRequired: Boolean
+  notes: [String]
   serviceGroupID: ID
   deleted: Boolean
 }
