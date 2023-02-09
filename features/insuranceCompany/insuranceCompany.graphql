@@ -1,8 +1,9 @@
 type InsuranceCompany {
   insuranceCompanyID: ID!
   name: String!
-  howToTrack: String
-  howToReimburse: String
+  phoneNumbers: [String]
+  # howToTrack: String
+  # howToReimburse: String
   deleted: Boolean
   #location: String
 }
@@ -25,8 +26,9 @@ type Mutation {
 
 input InsuranceCompanyInput {
   name: String
-  howToTrack: String
-  howToReimburse: String
+  phoneNumbers: [String]
+  # howToTrack: String
+  # howToReimburse: String
   deleted: Boolean
 }
 

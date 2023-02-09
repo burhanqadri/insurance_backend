@@ -12,12 +12,17 @@ const insuranceCompanySchema = new Schema(
       type: String,
       required: true,
     },
-    howToTrack: {
-      type: String,
-    },
-    howToReimburse: {
-      type: String,
-    },
+    phoneNumbers: [
+      {
+        type: String,
+      },
+    ],
+    // howToTrack: {
+    //   type: String,
+    // },
+    // howToReimburse: {
+    //   type: String,
+    // },
     deleted: {
       type: Boolean,
       default: false,
