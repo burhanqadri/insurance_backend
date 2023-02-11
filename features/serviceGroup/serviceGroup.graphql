@@ -1,10 +1,11 @@
 type ServiceGroup {
   serviceGroupID: ID!
   name: String!
-  percentageCovered: Int!
+  percentageCovered: Int
   maxCombined: Int
   maxLifeTime: Int
   timePeriod: Int
+  notes: [String]
   insurancePlan: InsurancePlan! #consider taking this one out? Or not
   services: [ServiceCovered]!
   deleted: Boolean
@@ -29,6 +30,7 @@ input ServiceGroupInput {
   maxCombined: Int
   maxLifeTime: Int
   timePeriod: Int
+  notes: [String]
   insurancePlan: ID
   serviceIDs: [ID]
   deleted: Boolean

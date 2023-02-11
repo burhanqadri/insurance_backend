@@ -25,9 +25,11 @@ const ServiceGroupSchema = new Schema(
     timePeriod: {
       type: Number,
     },
-    waitPeriodBetweenVisits: {
-      type: Number,
-    },
+    notes: [
+      {
+        type: String,
+      },
+    ],
     insurancePlan: {
       type: String,
       required: true,

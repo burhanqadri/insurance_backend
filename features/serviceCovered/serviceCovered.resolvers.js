@@ -24,6 +24,7 @@ module.exports = {
         maxVisits: input.maxVisits,
         maxUnits: input.maxUnits,
         unitMinutesSize: input.unitMinutesSize,
+        perCalendarYear: input.perCalendarYear,
         timePeriod: input.timePeriod,
         waitPeriodBetweenVisits: input.waitPeriodBetweenVisits,
         referralRequired: input.referralRequired,

@@ -7,6 +7,7 @@ type ServiceCovered {
   maxVisits: Int
   maxUnits: Int
   unitMinutesSize: Int
+  perCalendarYear: Boolean #reset every jan 1
   timePeriod: Int #calculate in months? what about per-calendar year
   waitPeriodBetweenVisits: Int
   referralRequired: Boolean
@@ -37,6 +38,7 @@ input ServiceCoveredInput {
   maxVisits: Int
   maxUnits: Int
   unitMinutesSize: Int
+  perCalendarYear: Boolean
   timePeriod: Int
   waitPeriodBetweenVisits: Int
   referralRequired: Boolean

@@ -23,6 +23,7 @@ const serviceGroupResolvers = {
         maxLifetime: input.maxLifetime,
         maxCombined: input.maxCombined,
         timePeriod: input.timePeriod,
+        notes: input.notes,
         insurancePlan: input.insurancePlan,
         services: input.serviceIDs,
       });
@@ -34,6 +35,7 @@ const serviceGroupResolvers = {
         maxLifetime: input.maxLifetime,
         maxCombined: input.maxCombined,
         timePeriod: input.timePeriod,
+        notes: input.notes,
         insurancePlan: input.insurancePlan,
         services: input.serviceIDs,
       });

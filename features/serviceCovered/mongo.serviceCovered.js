@@ -11,7 +11,14 @@ const ServiceCoveredSchema = new Schema(
     maxVisits: Number,
     maxUnits: Number,
     unitMinutesSize: Number,
+    perCalendarYear: {
+      type: Boolean,
+      default: false,
+    },
     timePeriod: { type: Number, required: true },
+    waitPeriodBetweenVisits: {
+      type: Number,
+    },
     referralRequired: {
       type: Boolean,
       default: false,
@@ -20,6 +27,11 @@ const ServiceCoveredSchema = new Schema(
       type: Boolean,
       default: false,
     },
+    notes: [
+      {
+        type: String,
+      },
+    ],
     serviceGroup: {
       type: String,
       required: true,
