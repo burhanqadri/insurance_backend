@@ -21,10 +21,9 @@ type Mutation {
 }
 
 input ServiceTypeInput {
-  serviceTypeID: ID!
   names: [String]
   maxPerVisit: Int
   notes: [String]
-  serviceCovered: ID
+  serviceCoveredID: ID
   deleted: Boolean
 }
