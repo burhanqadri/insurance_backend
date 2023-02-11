@@ -1,0 +1,30 @@
+type ServiceType {
+  serviceTypeID: ID!
+  names: [String]
+  maxPerVisit: Int
+  notes: [String]
+  serviceCovered: ServiceCovered #can get rid of this since why do need bidirectional
+  deleted: Boolean
+}
+
+type Query {
+  getServiceTypesBy(
+    serviceTypeID: ID
+    serviceCoveredID: ID # name: String
+  ): [ServiceType]
+}
+
+type Mutation {
+  createServiceType(input: ServiceTypeInput): ServiceType
+  updateServiceType(serviceTypeID: ID!, input: ServiceTypeInput): ServiceType
+  deleteServiceType(serviceTypeID: ID!): Boolean
+}
+
+input ServiceTypeInput {
+  serviceTypeID: ID!
+  names: [String]
+  maxPerVisit: Int
+  notes: [String]
+  serviceCovered: ID
+  deleted: Boolean
+}

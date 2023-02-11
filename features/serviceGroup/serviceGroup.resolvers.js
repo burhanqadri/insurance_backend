@@ -9,7 +9,7 @@ const serviceGroupResolvers = {
     async getServiceGroupsBy(_, args) {
       return serviceGroupModel.getServiceGroupsBy(
         {
-          insurancePlanID: args.insurancePlanID,
+          insurancePlan: args.insurancePlanID,
         },
         args.limit
       );
@@ -24,7 +24,7 @@ const serviceGroupResolvers = {
         maxCombined: input.maxCombined,
         timePeriod: input.timePeriod,
         notes: input.notes,
-        insurancePlan: input.insurancePlan,
+        insurancePlan: input.insurancePlanID,
         services: input.serviceIDs,
       });
     },
@@ -36,7 +36,7 @@ const serviceGroupResolvers = {
         maxCombined: input.maxCombined,
         timePeriod: input.timePeriod,
         notes: input.notes,
-        insurancePlan: input.insurancePlan,
+        insurancePlan: input.insurancePlanID,
         services: input.serviceIDs,
       });
     },

@@ -31,7 +31,7 @@ input ServiceGroupInput {
   maxLifeTime: Int
   timePeriod: Int
   notes: [String]
-  insurancePlan: ID
+  insurancePlanID: ID
   serviceIDs: [ID]
   deleted: Boolean
 }
